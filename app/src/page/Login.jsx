@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Modal, Button, Form } from "react-bootstrap";
 import { useNavigate, Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { userLogIn } from "../redux/reducer/auth"
+import { userLogIn, setUser } from "../redux/reducer/auth"
 
 import { validEmail, validPassword } from "../utils/validator";
 import ErrorText from '../component/ErrorText';
@@ -14,9 +14,11 @@ const LoginForm = ({ onSubmit , error}) => {
     let [loginData, setLoginData] = useState(
         {
             email: "",
-            password: ""
+            password: "",
+            rememberUser: false
         }
     );
+
     const [logInErrors, setLoginErrors] = useState({})
 
     function handleChange(event) {
@@ -42,10 +44,20 @@ const LoginForm = ({ onSubmit , error}) => {
                 })
             }
         }
-        setLoginData({
-            ...loginData,
-            [name]: value
-        })
+        if (name === "remember_me"){
+            setLoginData(
+                {
+                    ...loginData,
+                    ["rememberUser"]: !loginData.rememberUser
+                }
+            )
+        }
+        else {
+            setLoginData({
+                ...loginData,
+                [name]: value
+            })
+        }
     }
 
     return (
@@ -78,7 +90,9 @@ const LoginForm = ({ onSubmit , error}) => {
                     data = { loginData }/>
             </Form.Group>
             <Form.Group controlId="formBasicCheckbox">
-                <Form.Check type="checkbox" label="Remember Me!" />
+                <Form.Check type="checkbox" label="Remember Me!" name='remember_me' 
+                value={loginData.rememberUser}
+                onChange={handleChange}/>
             </Form.Group>
             <Button variant="primary" type="submit" block>
                 Login
@@ -101,13 +115,17 @@ export default function Login() {
         e.preventDefault();
         let email = e.target.email.value
         let password = e.target.password.value
+        let rememberUser = e.target.remember_me.value
     
         axios.post(`${process.env.REACT_APP_SERVER_URL}/user/login`, {
             email,
             password,
         }).then((response) => {
             navigate("/")
-            localStorage.setItem("accessToken", response.data.accessToken)
+            if (rememberUser === "true"){
+                localStorage.setItem("accessToken", response.data.accessToken)
+            }
+            dispatch(setUser(response.data.user))
             dispatch(userLogIn())
             handleClose();
         }).catch((err) => {

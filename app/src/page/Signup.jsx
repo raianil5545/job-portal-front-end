@@ -32,12 +32,8 @@ export default function Signup({ usertype }) {
     let handleSubmit = (event) => {
         event.preventDefault()
         let { name, email, password, role, mobile_number } = signUpData
-        if (role === "employer"){
-            var login_path = "/employer/login"
-        }
-        else if (role === "applicant"){
-            var login_path = "/jobseeker/login"
-        }
+        
+        var login_path = (role === "employer") ? "/employer/login" : "/jobseeker/login"
         axios.post(`${process.env.REACT_APP_SERVER_URL}/user/signup`, {
             name, 
             email,
