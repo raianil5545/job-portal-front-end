@@ -57,7 +57,7 @@ export default function Navbar() {
                         }
                         {
                             isUserLoggedIn &&
-                            user.role === "applicant"
+                            user.user.role === "applicant"
                             && 
                             <ul className="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll">
                                  <li className="nav-item dropdown mx-2">
@@ -68,11 +68,11 @@ export default function Navbar() {
                                             {
                                                 !userProfileStatus &&
                                                 <li className="nav-item">
-                                                    <NavLink className="p-3" to="/applicant/profile">Create</NavLink>
+                                                    <NavLink className="p-3" to="/applicant/profile/create">Create</NavLink>
                                                 </li>
                                             }
                                         <li className="nav-item">
-                                            <NavLink className="p-3" to="/applicant/profile/create">View</NavLink>
+                                            <NavLink className="p-3" to="/applicant/profile">View</NavLink>
                                         </li>
                                         <li className="nav-item">
                                             <NavLink className="p-3" to="/applicant/profile/update">Update</NavLink>
@@ -83,6 +83,39 @@ export default function Navbar() {
                                         </ul>
                                     </li>
                             </ul>
+                        }
+                        {
+                            isUserLoggedIn &&
+                            user.user.role === "employer"
+                            && 
+                            <ul className="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll">
+                                 <li className="nav-item dropdown mx-2">
+                                        <a className="nav-link dropdown-toggle" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Profile
+                                        </a>
+                                        <ul className="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+                                            {
+                                                !userProfileStatus &&
+                                                <li className="nav-item">
+                                                    <NavLink className="p-3" to="/employer/profile/create">Create</NavLink>
+                                                </li>
+                                            }
+                                        <li className="nav-item">
+                                            <NavLink className="p-3" to="/employer/profile">View</NavLink>
+                                        </li>
+                                        <li className="nav-item">
+                                            <NavLink className="p-3" to="/employer/profile/update">Update</NavLink>
+                                        </li>
+                                        <li className="nav-item">
+                                            <NavLink className="p-3" to="">Delete</NavLink>
+                                        </li>
+                                        </ul>
+                                    </li>
+                            </ul>
+                        }
+                        {
+                            isUserLoggedIn &&
+                            <NavLink className="p-3" to="/logout">Logout</NavLink>
                         }
                         <div className='w-25'>
                             <form className="d-flex">

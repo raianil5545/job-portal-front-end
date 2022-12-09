@@ -125,7 +125,7 @@ export default function Login() {
             if (rememberUser === "true"){
                 localStorage.setItem("accessToken", response.data.accessToken)
             }
-            dispatch(setUser(response.data.user))
+            dispatch(setUser({"user": response.data.user, "token": response.data.accessToken}))
             dispatch(userLogIn())
             handleClose();
         }).catch((err) => {

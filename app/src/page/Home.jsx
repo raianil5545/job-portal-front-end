@@ -1,9 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { setProfileStatus, addProfile } from "../redux/reducer/profile";
 
 
 import Background from "../images/job-poster.jpg";
 
 export default function Home() {
+  let dispatch = useDispatch();
+  let [loading, setLoading] = useState(true);
+  let accessToken = useSelector((state) => (state.auth.user.token))
+
+  useEffect(() => {
+    if (localStorage.getItem("accessToken")){
+      axios.get(`${process.env.REACT_APP_SERVER_URL}/applicant/profile`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+        }
+      }).then(res => {
+        if (res.data.length > 0){
+            dispatch(setProfileStatus())
+            dispatch(addProfile(res.data[0]))
+        }
+        setLoading(false)
+      })
+    }
+    else {
+      axios.get(`${process.env.REACT_APP_SERVER_URL}/applicant/profile`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      }).then(res => {
+        if (res.data.length > 0){
+            dispatch(setProfileStatus())
+            dispatch(addProfile(res.data[0]))
+        }
+        setLoading(false)
+      })
+     }
+})
   const [jobSearch, setJobSearch] = useState(
     {
       search_term: "",
@@ -16,6 +51,14 @@ export default function Home() {
       [name]: value
     })
   }
+  if (localStorage.getItem("accessToken")){
+    if (loading){
+      return <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    }
+  }
+
   return (
     <>
       <div className="container-fluid" style={{ backgroundImage: 'url(' + Background + ')', backgroundSize: 'auto' }}>

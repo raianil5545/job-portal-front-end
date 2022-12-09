@@ -11,6 +11,9 @@ export const profileSlice = createSlice(
             setProfileStatus: (state, action) => {
                 state.profileExist = true
             },
+            resetProfileStatus: (state, action) => {
+                state.profileExist = false
+            },
             addProfile: (state, action) => {
                 state.profile = action.payload
             },
@@ -18,6 +21,6 @@ export const profileSlice = createSlice(
     }
 )
 
-export const { setProfileStatus, addProfile } = profileSlice.actions
+export const { setProfileStatus, addProfile, resetProfileStatus } = profileSlice.actions
 
 export default profileSlice.reducer

@@ -2,9 +2,13 @@ import React from 'react';
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import ErrorText from '../component/ErrorText';
+
 
 export default function CreateApplicantProfile() {
     let navigate = useNavigate()
+    let reduxAccessToken = useSelector((state) => (state.auth.user.token))
     let [profileData, setProfileData] = useState({
         level: "",
         skills: "",
@@ -22,58 +26,84 @@ export default function CreateApplicantProfile() {
             city: "",
             province: ""
         },
-        job_location:""
+        job_location: ""
     })
 
+    let [apiErrors, setApiCallErr] = useState({})
+
     let handleChange = (event) => {
-        let {name, value} = event.target
-        if (event.target.type === "file"){
+        let { name, value } = event.target
+        if (event.target.type === "file") {
             setProfileData({
                 ...profileData,
                 [name]: event.target.files
             })
         }
         else {
-            setProfileData({
-                ...profileData,
-                [name]: value
-            })
+            if (["condition", "amount"].includes(name)){
+                setProfileData((prevState) => ({
+                    ...prevState,
+                    expected_salary: {
+                        ...prevState.expected_salary,
+                        [name]: value
+                    }
+                }))
+            }
+            else if (["street", "city", "province"].includes(name)){
+                setProfileData((prevState) => ({
+                    ...prevState,
+                    current_address: {
+                        ...prevState.current_address,
+                        [name]: value
+                    } 
+                }))
+            }
+            else {
+                setProfileData({
+                    ...profileData,
+                    [name]: value
+                })
+            }
         }
     }
 
     let handleSubmit = (event) => {
         event.preventDefault()
-        let formData = new FormData()
-        let { level, skills, experience, 
+        let { level, skills, experience,
             date_of_birth, gender,
-            expected_salary, profile_pic, 
-            resume, current_address, 
+            expected_salary, profile_pic,
+            resume, current_address,
             job_location } = profileData
         
-        
-        formData.append("level", level);
-        formData.append("skills", skills);
-        formData.append("experience", experience);
-        formData.append("date_of_birth", date_of_birth);
-        formData.append("gender", gender);
-        formData.append("expected_salary", expected_salary);
+        let form_data = new FormData();
+        form_data.append("level", level)
+        form_data.append("skills", skills.split(","))
+        form_data.append("experience", experience)
+        form_data.append("date_of_birth", date_of_birth)
+        form_data.append("gender", gender)
+        form_data.append("current_address",  JSON.stringify(current_address))
+        form_data.append("expected_salary",  JSON.stringify(expected_salary))
+        form_data.append("job_location", job_location)
+ 
         let profile_pic_arr = [...profile_pic]
         profile_pic_arr.forEach(
             el => {
-                formData.append("profile_pic", el);
+                form_data.append("profile_pic", el);
             }
         )
         let resume_arr = [...resume]
         resume_arr.forEach(
             el => {
-                formData.append("resume", el);
+                form_data.append("resume", el);
             }
         )
-        formData.append("current_address", current_address);
-        formData.append("job_location", job_location);
-        axios.post(`${process.env.REACT_APP_SERVER_URL}/applicant/profile/create`, formData, {
+
+        axios({
+            method: "post",
+            url: `${process.env.REACT_APP_SERVER_URL}/applicant/profile/create`,
+            data: form_data,
             headers: {
-                Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                Authorization: `Bearer ${localStorage.getItem("accessToken")? localStorage.getItem("accessToken"): reduxAccessToken}`
             }
         }).then(
             (res) => {
@@ -82,21 +112,35 @@ export default function CreateApplicantProfile() {
             }
         ).catch(
             (err) => {
+                setApiCallErr({})
+                err?.response?.data?.errors?.forEach(el => {
+                    setApiCallErr((prev) => {
+                        return {
+                            ...prev,
+                            [el.param]: el.msg
+                        }
+                    })
+                })
                 navigate("/applicant/profile/create")
-                alert("caught error: ", err)
             }
         )
     }
 
-  return (
-    <>
+    return (
+        <>
             <form onSubmit={handleSubmit}>
-                <label for="formFileSm" class="form-label">Experience Level</label>
                 <div className="mb-3">
-                    <input type="text" className="form-control"
-                        name="level"
-                        value={profileData.level} onChange={handleChange}
-                        placeholder="eg: entry" />
+                    <select class="form-select col-4" name="level" aria-label="Default select example" onChange={handleChange}>
+                                <option selected>Select the Experience Level</option>
+                                <option value="entry level">Entry Level</option>
+                                <option value="mid level">Mid level</option>
+                                <option value="senior level">Senior Level</option>
+                                <option value="senior level level">Top Level</option>
+                            </select>
+                        <ErrorText 
+                        errors = {(Object.keys(apiErrors).length !==0) ? apiErrors : {}}
+                        field="level"
+                        data = { profileData }/>
                 </div>
                 <div className="mb-3">
                     <label for="formFileSm" class="form-label">Skills</label>
@@ -104,6 +148,10 @@ export default function CreateApplicantProfile() {
                         name="skills"
                         value={profileData.skills} onChange={handleChange}
                         placeholder="eg: python, C" />
+                        <ErrorText 
+                        errors = {(Object.keys(apiErrors).length !==0) ? apiErrors : {}}
+                        field="skills"
+                        data = { profileData }/>
                 </div>
                 <div className="mb-3">
                     <label for="formFileSm" class="form-label">Years of Experience</label>
@@ -111,6 +159,10 @@ export default function CreateApplicantProfile() {
                         name="experience"
                         value={profileData.experience} onChange={handleChange}
                         placeholder="eg: 1" />
+                        <ErrorText 
+                        errors = {(Object.keys(apiErrors).length !==0) ? apiErrors : {}}
+                        field="experience"
+                        data = { profileData }/>
                 </div>
                 <div className="mb-3">
                     <label for="formFileSm" class="form-label">date of Birth</label>
@@ -118,6 +170,10 @@ export default function CreateApplicantProfile() {
                         name="date_of_birth"
                         value={profileData.date_of_birth} onChange={handleChange}
                         placeholder="MM/DD/YYYY" />
+                        <ErrorText 
+                        errors = {(Object.keys(apiErrors).length !==0) ? apiErrors : {}}
+                        field="date"
+                        data = { profileData }/>
                 </div>
                 <div className="mb-3">
                     <select class="form-select" name="gender" aria-label="Default select example" onChange={handleChange}>
@@ -186,5 +242,5 @@ export default function CreateApplicantProfile() {
                 <button type="submit" style={{ width: '100%' }} className="btn btn-primary">Submit</button>
             </form>
         </>
-  )
+    )
 }

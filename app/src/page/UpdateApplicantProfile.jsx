@@ -1,43 +1,61 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function UpdateApplicantProfile() {
     const profile = useSelector((state) => state.profile.profile)
+    let navigate = useNavigate()
     let [updatedData, setUpdatedData] = useState({
         profile_pic : [],
-        resume: []
+        resume: [],
+        level: profile.level,
+        skills: profile.skills.join(" , "),
+        experience: profile.experience,
+        date_of_birth: profile.date_of_birth,
+        gender: profile.gender,
+        expected_salary: profile.expected_salary,
+        current_address: profile.current_address,
+        job_location: profile.job_location.join(" , ")
     })
 
-    useEffect(() => {
-        updatedData["level"] = profile.level
-        updatedData["skills"] = profile.skills.join(" , ")
-        updatedData["experience"] = profile.experience
-        updatedData["date_of_birth"] = profile.date_of_birth
-        updatedData["gender"] = profile.gender
-        updatedData["condition"] = profile.expected_salary.condition
-        updatedData["amount"] = profile.expected_salary.amount
-        updatedData["street"] = profile.current_address.street
-        updatedData["city"] = profile.current_address.city
-        updatedData["province"] = profile.current_address.province
-        updatedData["job_location"] = profile.job_location.join(" , ")
-    }, [])
+    // useEffect(() => {
+    //     updatedData["level"] = profile.level
+    //     updatedData["skills"] = profile.skills.join(" , ")
+    //     updatedData["experience"] = profile.experience
+    //     updatedData["date_of_birth"] = profile.date_of_birth
+    //     updatedData["gender"] = profile.gender
+    //     updatedData["expected_salary"] = profile.expected_salary
+    //     updatedData["current_address"] = profile.current_address
+    //     updatedData["job_location"] = profile.job_location.join(" , ")
+    // },[])
     function handleSubmit(event) {
         event.preventDefault()
         let formData = new FormData()
-        formData["expected_salary"] = {}
-        formData["current_address"] = {}
-        formData["level"] = updatedData["level"]
-        formData["skills"] = updatedData["skills"].split(",")
-        formData["experience"] = updatedData["experience"]
-        formData["date_of_birth"] = updatedData["date_of_birth"]
-        formData["gender"] = updatedData["gender"]
-        formData["expected_salary"]["amount"] = updatedData["amount"]
-        formData["expected_salary"]["condition"] = updatedData["condition"]
-        formData["current_address"]["street"] = updatedData["street"]
-        formData["current_address"]["city"] = updatedData["city"]
-        formData["current_address"]["province"] = updatedData["province"]
-        formData["job_location"] = updatedData["job_location"]
+        if (profile.level !== updatedData.level){
+            formData.append("level", updatedData["level"])
+        }
+        if ((profile.skills.join(" , ") !== updatedData.skills)){
+            formData.append("skills", updatedData["skills"].split(","))
+        }
+        if (profile.experience !== updatedData.experience){
+            formData.append("experience", updatedData["experience"])
+        }
+        if (profile.date_of_birth !== updatedData.date_of_birth){
+            formData.append("date_of_birth", updatedData["date_of_birth"])
+        }
+        if (profile.gender !== updatedData.gender){
+            formData.append("gender", updatedData["gender"])
+        }
+        if (profile.job_location.join(" , ") !== updatedData.job_location){
+            formData.append("job_location", updatedData["job_location"])
+        }
+        if (profile.expected_salary !== updatedData.expected_salary){
+            formData.append("expected_salary", JSON.stringify(updatedData["expected_salary"]))
+        }
+        if (profile.current_address !== updatedData.current_address){
+            formData.append("current_address", JSON.stringify(updatedData["current_address"]))
+        }
         let profile_pic = updatedData["profile_pic"]
         let profile_pic_arr = [...profile_pic]
         let resume= updatedData["resume"]
@@ -53,25 +71,45 @@ export default function UpdateApplicantProfile() {
               Authorization: `Bearer ${localStorage.getItem("accessToken")}`
             }
           }).then((res => {
-            console.log(res)
+            navigate("/")
           })).catch((err)=> {
             console.log(err)
           })
-    }
+     }
 
-    function handleChange(e) {
-        let { name, value } = e.target
-        if (e.target.type === "file") {
+    function handleChange(event) {
+        let { name, value } = event.target
+        if (event.target.type === "file") {
             setUpdatedData({
                 ...updatedData,
-                [name]: e.target.files
+                [name]: event.target.files
             })
         }
         else {
-            setUpdatedData({
-                ...updatedData,
-                [name]: value
-            })
+            if (["condition", "amount"].includes(name)){
+                setUpdatedData((prevState) => ({
+                    ...prevState,
+                    expected_salary: {
+                        ...prevState.expected_salary,
+                        [name]: value
+                    }
+                }))
+            }
+            else if (["street", "city", "province"].includes(name)){
+                setUpdatedData((prevState) => ({
+                    ...prevState,
+                    current_address: {
+                        ...prevState.current_address,
+                        [name]: value
+                    } 
+                }))
+            }
+            else {
+                setUpdatedData({
+                    ...updatedData,
+                    [name]: value
+                })
+            }
         }
     }
 
@@ -126,14 +164,14 @@ export default function UpdateApplicantProfile() {
                     <div className="row">
                         <div class="col-3">
                             <select class="form-select col-4" name="condition" aria-label="Default select example" onChange={handleChange}>
-                                <option value="equal" selected={updatedData.condition === "equal" ? "selected" : ""}>equal</option>
-                                <option value="greater" selected={updatedData.condition === "greater" ? "selected" : ""}>greater</option>
-                                <option value="lesser" selected={updatedData.condition === "lesser" ? "selected" : ""}>lesser</option>
+                                <option value="equal" selected={updatedData.expected_salary.condition === "equal" ? "selected" : ""}>equal</option>
+                                <option value="greater" selected={updatedData.expected_salary.condition === "greater" ? "selected" : ""}>greater</option>
+                                <option value="lesser" selected={updatedData.expected_salary.condition === "lesser" ? "selected" : ""}>lesser</option>
                             </select>
                         </div>
                         <div class="col-9">
                             <input type="text" class="form-control" name="amount"
-                                value={updatedData.amount} onChange={handleChange} placeholder="Amount in Rs" />
+                                value={updatedData.expected_salary.amount} onChange={handleChange} placeholder="Amount in Rs" />
                         </div>
                     </div>
                 </div>
@@ -142,23 +180,23 @@ export default function UpdateApplicantProfile() {
                         <div class="col-4">
                             <label for="current-address" class="form-label"> Street Name </label>
                             <input type="text" class="form-control" name="street" onChange={handleChange}
-                                value={updatedData.street} placeholder="eg. Hanuman Chowk" />
+                                value={updatedData.current_address.street} placeholder="eg. Hanuman Chowk" />
                         </div>
                         <div class="col-4">
                             <label for="current-address" class="form-label"> City </label>
                             <input type="text" class="form-control" name="city" onChange={handleChange}
-                                value={updatedData.city} placeholder="eg. biratnagar" />
+                                value={updatedData.current_address.city} placeholder="eg. biratnagar" />
                         </div>
                         <div class="col-4">
                             <label for="current-address" class="form-label"> Province </label>
                             <select class="form-select col-4" aria-label="Default select example" name="province" onChange={handleChange}>
-                                <option value="province no 1" selected={updatedData.province === "province no 1" ? "selected" : ""}>Province No 1</option>
-                                <option value="bagmati" selected={updatedData.province === "bagmati" ? "selected" : ""}>Bagmati</option>
-                                <option value="madhesh" selected={updatedData.province === "madhesh" ? "selected" : ""}>Madhesh</option>
-                                <option value="lumbini" selected={updatedData.province === "lumbini" ? "selected" : ""}>Lumbini</option>
-                                <option value="gandaki" selected={updatedData.province === "gandaki" ? "selected" : ""}>Gandaki</option>
-                                <option value="karnali" selected={updatedData.province === "karnali" ? "selected" : ""}>Karnali</option>
-                                <option value="sudur paschim" selected={updatedData.province === "sudur paschim" ? "selected" : ""}>Sudur Paschim</option>
+                                <option value="province no 1" selected={updatedData.current_address.province === "province no 1" ? "selected" : ""}>Province No 1</option>
+                                <option value="bagmati" selected={updatedData.current_address.province === "bagmati" ? "selected" : ""}>Bagmati</option>
+                                <option value="madhesh" selected={updatedData.current_address.province === "madhesh" ? "selected" : ""}>Madhesh</option>
+                                <option value="lumbini" selected={updatedData.current_address.province === "lumbini" ? "selected" : ""}>Lumbini</option>
+                                <option value="gandaki" selected={updatedData.current_address.province === "gandaki" ? "selected" : ""}>Gandaki</option>
+                                <option value="karnali" selected={updatedData.current_address.province === "karnali" ? "selected" : ""}>Karnali</option>
+                                <option value="sudur paschim" selected={updatedData.current_address.province === "sudur paschim" ? "selected" : ""}>Sudur Paschim</option>
                             </select>
                         </div>
                     </div>
