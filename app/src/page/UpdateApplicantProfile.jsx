@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -7,7 +7,7 @@ export default function UpdateApplicantProfile() {
     const profile = useSelector((state) => state.profile.profile)
     let navigate = useNavigate()
     let [updatedData, setUpdatedData] = useState({
-        profile_pic : [],
+        profile_pic: [],
         resume: [],
         level: profile.level,
         skills: profile.skills.join(" , "),
@@ -19,46 +19,36 @@ export default function UpdateApplicantProfile() {
         job_location: profile.job_location.join(" , ")
     })
 
-    // useEffect(() => {
-    //     updatedData["level"] = profile.level
-    //     updatedData["skills"] = profile.skills.join(" , ")
-    //     updatedData["experience"] = profile.experience
-    //     updatedData["date_of_birth"] = profile.date_of_birth
-    //     updatedData["gender"] = profile.gender
-    //     updatedData["expected_salary"] = profile.expected_salary
-    //     updatedData["current_address"] = profile.current_address
-    //     updatedData["job_location"] = profile.job_location.join(" , ")
-    // },[])
     function handleSubmit(event) {
         event.preventDefault()
         let formData = new FormData()
-        if (profile.level !== updatedData.level){
+        if (profile.level !== updatedData.level) {
             formData.append("level", updatedData["level"])
         }
-        if ((profile.skills.join(" , ") !== updatedData.skills)){
+        if ((profile.skills.join(" , ") !== updatedData.skills)) {
             formData.append("skills", updatedData["skills"].split(","))
         }
-        if (profile.experience !== updatedData.experience){
+        if (profile.experience !== updatedData.experience) {
             formData.append("experience", updatedData["experience"])
         }
-        if (profile.date_of_birth !== updatedData.date_of_birth){
+        if (profile.date_of_birth !== updatedData.date_of_birth) {
             formData.append("date_of_birth", updatedData["date_of_birth"])
         }
-        if (profile.gender !== updatedData.gender){
+        if (profile.gender !== updatedData.gender) {
             formData.append("gender", updatedData["gender"])
         }
-        if (profile.job_location.join(" , ") !== updatedData.job_location){
+        if (profile.job_location.join(" , ") !== updatedData.job_location) {
             formData.append("job_location", updatedData["job_location"])
         }
-        if (profile.expected_salary !== updatedData.expected_salary){
+        if (profile.expected_salary !== updatedData.expected_salary) {
             formData.append("expected_salary", JSON.stringify(updatedData["expected_salary"]))
         }
-        if (profile.current_address !== updatedData.current_address){
+        if (profile.current_address !== updatedData.current_address) {
             formData.append("current_address", JSON.stringify(updatedData["current_address"]))
         }
         let profile_pic = updatedData["profile_pic"]
         let profile_pic_arr = [...profile_pic]
-        let resume= updatedData["resume"]
+        let resume = updatedData["resume"]
         let resume_arr = [...resume]
         profile_pic_arr.forEach(el => {
             formData.append("profile_pic", el)
@@ -68,14 +58,14 @@ export default function UpdateApplicantProfile() {
         })
         axios.put(`${process.env.REACT_APP_SERVER_URL}/applicant/profile/update`, formData, {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                Authorization: `Bearer ${localStorage.getItem("accessToken")}`
             }
-          }).then((res => {
+        }).then((res => {
             navigate("/")
-          })).catch((err)=> {
+        })).catch((err) => {
             console.log(err)
-          })
-     }
+        })
+    }
 
     function handleChange(event) {
         let { name, value } = event.target
@@ -86,7 +76,7 @@ export default function UpdateApplicantProfile() {
             })
         }
         else {
-            if (["condition", "amount"].includes(name)){
+            if (["condition", "amount"].includes(name)) {
                 setUpdatedData((prevState) => ({
                     ...prevState,
                     expected_salary: {
@@ -95,13 +85,13 @@ export default function UpdateApplicantProfile() {
                     }
                 }))
             }
-            else if (["street", "city", "province"].includes(name)){
+            else if (["street", "city", "province"].includes(name)) {
                 setUpdatedData((prevState) => ({
                     ...prevState,
                     current_address: {
                         ...prevState.current_address,
                         [name]: value
-                    } 
+                    }
                 }))
             }
             else {
@@ -118,10 +108,12 @@ export default function UpdateApplicantProfile() {
             <form onSubmit={handleSubmit}>
                 <label for="formFileSm" class="form-label">Experience Level</label>
                 <div className="mb-3">
-                    <input type="text" className="form-control"
-                        name="level"
-                        value={updatedData.level} onChange={handleChange}
-                        placeholder="eg: entry" />
+                    <select class="form-select col-4" name="level" aria-label="Default select example" onChange={handleChange}>
+                        <option value="entry level" selected={updatedData.level === "entry level" ? "selected" : ""}>Entry Level</option>
+                        <option value="mid level" selected={updatedData.level === "mid level" ? "selected" : ""}>Mid level</option>
+                        <option value="senior level" selected={updatedData.level === "senior level" ? "selected" : ""}>Senior Level</option>
+                        <option value="top level" selected={updatedData.level === "top level" ? "selected" : ""}>Top Level</option>
+                    </select>
                 </div>
                 <div className="mb-3">
                     <label for="formFileSm" class="form-label">Skills</label>

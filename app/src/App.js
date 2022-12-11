@@ -1,6 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 
 import './App.css';
@@ -16,13 +15,14 @@ import ShowApplicantProfile from "./page/ShowApplicantProfile";
 import UpdateApplicantProfile from "./page/UpdateApplicantProfile";
 import CreateApplicantProfile from "./page/CreateApplicantProfile";
 import CreateEmployerProfile from "./page/CreateEmployerProfile";
+import ShowEmployerProfile from "./page/ShowEmployerProfile";
+import UpdateEmployerProfile from "./page/UpdateEmployerProfile";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { userLogIn, setUser, userLogout } from "../src/redux/reducer/auth";
 
 
 function App() {
-  const [userFetched, setuserFetched] = useState(false);
   const dispatch = useDispatch()
 
   useEffect(()=>{
@@ -34,14 +34,12 @@ function App() {
       }).then(res => {
         dispatch(userLogIn())
         dispatch(setUser({"user": res.data}))
-        setuserFetched(true)
       })
       .catch(err => {
         dispatch(userLogout())
-        setuserFetched(true)
       })
     }
-  }, [])
+  }, [dispatch])
 
   return (
     <>
@@ -61,6 +59,8 @@ function App() {
           <Route path = "/applicant/profile/update" element = {<UpdateApplicantProfile />} />
           <Route path="/applicant/profile/create" element ={<CreateApplicantProfile />} />
           <Route path="/employer/profile/create" element={<CreateEmployerProfile />} />
+          <Route path = "/employer/profile" element={<ShowEmployerProfile />} />
+          <Route path = "employer/profile/update" element={<UpdateEmployerProfile />} />
         </Routes>
       </div>
     </>

@@ -114,6 +114,31 @@ export default function Navbar() {
                             </ul>
                         }
                         {
+                            isUserLoggedIn && 
+                            user.user.role === "employer" &&
+                            <ul className="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll">
+                                 <li className="nav-item dropdown mx-2">
+                                        <a className="nav-link dropdown-toggle" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Jobs
+                                        </a>
+                                        <ul className="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+                                        <li className="nav-item">
+                                                    <NavLink className="p-3" to="/employer/job/create">Post Job</NavLink>
+                                                </li>
+                                        <li className="nav-item">
+                                            <NavLink className="p-3" to="/employer/jobs">View Jobs</NavLink>
+                                        </li>
+                                        <li className="nav-item">
+                                            <NavLink className="p-3" to="/employer/job/update">Update Job</NavLink>
+                                        </li>
+                                        <li className="nav-item">
+                                            <NavLink className="p-3" to="">Delete Jobs</NavLink>
+                                        </li>
+                                        </ul>
+                                    </li>
+                            </ul>
+                        }
+                        {
                             isUserLoggedIn &&
                             <NavLink className="p-3" to="/logout">Logout</NavLink>
                         }
