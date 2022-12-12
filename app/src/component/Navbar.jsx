@@ -57,7 +57,7 @@ export default function Navbar() {
                         }
                         {
                             isUserLoggedIn &&
-                            user.user.role === "applicant"
+                            user.role === "applicant"
                             && 
                             <ul className="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll">
                                  <li className="nav-item dropdown mx-2">
@@ -86,7 +86,7 @@ export default function Navbar() {
                         }
                         {
                             isUserLoggedIn &&
-                            user.user.role === "employer"
+                            user.role === "employer"
                             && 
                             <ul className="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll">
                                  <li className="nav-item dropdown mx-2">
@@ -115,7 +115,7 @@ export default function Navbar() {
                         }
                         {
                             isUserLoggedIn && 
-                            user.user.role === "employer" &&
+                            user.role === "employer" &&
                             <ul className="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll">
                                  <li className="nav-item dropdown mx-2">
                                         <a className="nav-link dropdown-toggle" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -123,7 +123,7 @@ export default function Navbar() {
                                         </a>
                                         <ul className="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
                                         <li className="nav-item">
-                                                    <NavLink className="p-3" to="/employer/job/create">Post Job</NavLink>
+                                                    <NavLink className="p-3" to="/employer/job/post">Post Job</NavLink>
                                                 </li>
                                         <li className="nav-item">
                                             <NavLink className="p-3" to="/employer/jobs">View Jobs</NavLink>

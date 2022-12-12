@@ -5,22 +5,30 @@ import { setProfileStatus, addProfile } from "../redux/reducer/profile";
 
 
 import Background from "../images/job-poster.jpg";
+import ShowJobs from './ShowJobs';
+import jobContext from '../Context/jobcontext';
+
 
 export default function Home() {
   let dispatch = useDispatch();
   let [loading, setLoading] = useState(true);
-  let accessToken = useSelector((state) => (state.auth.user.token))
+  let [loadingJobs, setloadingJobs] = useState(true)
+  let [jobs, setJobs] = useState([])
+  let accessToken = useSelector((state) => (state.auth.token))
+  const user = useSelector((state) => (state.auth.user))
+  const profile = useSelector((state) => (state.profile.profile))
+
 
   useEffect(() => {
-    if (localStorage.getItem("accessToken")){
+    if (localStorage.getItem("accessToken")) {
       axios.get(`${process.env.REACT_APP_SERVER_URL}/applicant/profile`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`
         }
       }).then(res => {
-        if (res.data.length > 0){
-            dispatch(setProfileStatus())
-            dispatch(addProfile(res.data[0]))
+        if (res.data.length > 0) {
+          dispatch(setProfileStatus())
+          dispatch(addProfile(res.data[0]))
         }
         setLoading(false)
       })
@@ -31,32 +39,50 @@ export default function Home() {
           Authorization: `Bearer ${accessToken}`
         }
       }).then(res => {
-        if (res.data.length > 0){
-            dispatch(setProfileStatus())
-            dispatch(addProfile(res.data[0]))
+        if (res.data.length > 0) {
+          dispatch(setProfileStatus())
+          dispatch(addProfile(res.data[0]))
         }
         setLoading(false)
       })
-     }
-})
+    }
+  }, [])
+
+  useEffect(() => {
+    if (user.role == "employer") {
+      axios.get(`${process.env.REACT_APP_SERVER_URL}/employer/jobs`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken") ? localStorage.getItem("accessToken") : accessToken}`
+        }
+      }).then(res => {
+        if (res?.data?.length > 0) {
+          setJobs(res.data)
+        }
+        setloadingJobs(false)
+      })
+    }
+  }, [user.role])
   const [jobSearch, setJobSearch] = useState(
     {
       search_term: "",
     }
   )
 
-  function handleSearch(event){
-    let {name, value} = event.target
+  function handleSearch(event) {
+    let { name, value } = event.target
     setJobSearch({
       [name]: value
     })
   }
-  if (localStorage.getItem("accessToken")){
-    if (loading){
-      return <div class="spinner-border" role="status">
+  if (loading) {
+    return <div class="spinner-border" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>
-    }
+  }
+  if (loadingJobs) {
+    return <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
   }
 
   return (
@@ -65,9 +91,9 @@ export default function Home() {
         <div className='row'>
           <div className="col-6 d-flex justify-content-around ">
             <form className='mt-2'>
-              <input className='mx-1' type="text" name="search_term" 
-              value = {jobSearch.search_term} onChange={handleSearch}
-              placeholder='Search Job by job title.' />
+              <input className='mx-1' type="text" name="search_term"
+                value={jobSearch.search_term} onChange={handleSearch}
+                placeholder='Search Job by job title.' />
               <button className="btn-primary">Search Jobs</button>
             </form>
           </div>
@@ -91,6 +117,15 @@ export default function Home() {
             </div>
           </div>
         </div>
+      </div>
+      <div className='container-fluid mt-3'>
+        {
+          user.role === "employer" &&
+          jobs.length > 0 &&
+          <jobContext.Provider value={jobs}>
+            <ShowJobs logo={profile.logo} />
+          </jobContext.Provider>
+        }
       </div>
     </>
   )

@@ -8,7 +8,7 @@ import ErrorText from '../component/ErrorText';
 
 export default function CreateApplicantProfile() {
     let navigate = useNavigate()
-    let reduxAccessToken = useSelector((state) => (state.auth.user.token))
+    let reduxAccessToken = useSelector((state) => (state.auth.token))
     let [profileData, setProfileData] = useState({
         level: "",
         skills: "",

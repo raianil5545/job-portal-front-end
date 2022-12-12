@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Modal, Button, Form } from "react-bootstrap";
 import { useNavigate, Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { userLogIn, setUser } from "../redux/reducer/auth"
+import { userLogIn, setUser, setToken } from "../redux/reducer/auth"
 
 import { validEmail, validPassword } from "../utils/validator";
 import ErrorText from '../component/ErrorText';
@@ -125,7 +125,8 @@ export default function Login() {
             if (rememberUser === "true"){
                 localStorage.setItem("accessToken", response.data.accessToken)
             }
-            dispatch(setUser({"user": response.data.user, "token": response.data.accessToken}))
+            dispatch(setUser(response.data.user))
+            dispatch(setToken(response.data.accessToken))
             dispatch(userLogIn())
             handleClose();
         }).catch((err) => {

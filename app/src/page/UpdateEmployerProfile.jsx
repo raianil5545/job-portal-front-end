@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 export default function UpdateEmployerProfile() {
   let profile = useSelector((state) => (state.profile.profile))
   let navigate = useNavigate()
-  let reduxAccessToken = useSelector((state) => (state.auth.user.token))
+  let reduxAccessToken = useSelector((state) => (state.auth.token))
 
   let [updateProfileData, setProfileData] = useState({
     headquarter_address: profile.headquarter_address,

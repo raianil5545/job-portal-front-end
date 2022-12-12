@@ -18,7 +18,7 @@ export default function CreateEmployerProfile() {
     })
 
     let navigate = useNavigate()
-    let reduxAccessToken = useSelector((state) => (state.auth.user.token))
+    let reduxAccessToken = useSelector((state) => (state.auth.token))
 
     let handleChange = (event) => {
         let { name, value } = event.target

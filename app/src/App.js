@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 
@@ -17,6 +17,8 @@ import CreateApplicantProfile from "./page/CreateApplicantProfile";
 import CreateEmployerProfile from "./page/CreateEmployerProfile";
 import ShowEmployerProfile from "./page/ShowEmployerProfile";
 import UpdateEmployerProfile from "./page/UpdateEmployerProfile";
+import ShowJob from "./page/ShowJob";
+import PostJobs from "./page/PostJobs";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { userLogIn, setUser, userLogout } from "../src/redux/reducer/auth";
@@ -24,6 +26,8 @@ import { userLogIn, setUser, userLogout } from "../src/redux/reducer/auth";
 
 function App() {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+
 
   useEffect(()=>{
     if (localStorage.getItem("accessToken")){
@@ -33,13 +37,16 @@ function App() {
         }
       }).then(res => {
         dispatch(userLogIn())
-        dispatch(setUser({"user": res.data}))
+        dispatch(setUser(res.data))
       })
       .catch(err => {
         dispatch(userLogout())
       })
     }
-  }, [dispatch])
+    else {
+      navigate("/")
+    }
+  }, [])
 
   return (
     <>
@@ -61,6 +68,8 @@ function App() {
           <Route path="/employer/profile/create" element={<CreateEmployerProfile />} />
           <Route path = "/employer/profile" element={<ShowEmployerProfile />} />
           <Route path = "employer/profile/update" element={<UpdateEmployerProfile />} />
+          <Route path = "/employer/job/post" element={<PostJobs />} />
+          <Route path="/job/show/:id" element={<ShowJob />} />
         </Routes>
       </div>
     </>
