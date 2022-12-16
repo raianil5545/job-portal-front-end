@@ -22,6 +22,8 @@ import PostJobs from "./page/PostJobs";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { userLogIn, setUser, userLogout } from "../src/redux/reducer/auth";
+import UpdateJob from "./page/UpdateJob";
+import ShowJobs from "./page/ShowJobs";
 
 
 function App() {
@@ -70,6 +72,8 @@ function App() {
           <Route path = "employer/profile/update" element={<UpdateEmployerProfile />} />
           <Route path = "/employer/job/post" element={<PostJobs />} />
           <Route path="/job/show/:id" element={<ShowJob />} />
+          <Route path="/employer/jobs" element={<ShowJobs />} />
+          <Route path="/employer/job/update/:id" element={<UpdateJob />} />
         </Routes>
       </div>
     </>

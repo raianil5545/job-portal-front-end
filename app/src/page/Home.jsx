@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setProfileStatus, addProfile } from "../redux/reducer/profile";
+import {setjobExist, addJobs} from "../redux/reducer/jobs"
 
 
 import Background from "../images/job-poster.jpg";
@@ -57,6 +58,8 @@ export default function Home() {
       }).then(res => {
         if (res?.data?.length > 0) {
           setJobs(res.data)
+          dispatch(setjobExist())
+          dispatch(addJobs(res.data))
         }
         setloadingJobs(false)
       })

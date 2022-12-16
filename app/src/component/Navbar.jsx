@@ -129,9 +129,6 @@ export default function Navbar() {
                                             <NavLink className="p-3" to="/employer/jobs">View Jobs</NavLink>
                                         </li>
                                         <li className="nav-item">
-                                            <NavLink className="p-3" to="/employer/job/update">Update Job</NavLink>
-                                        </li>
-                                        <li className="nav-item">
                                             <NavLink className="p-3" to="">Delete Jobs</NavLink>
                                         </li>
                                         </ul>

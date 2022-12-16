@@ -1,6 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import {useLocation} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function ShowJob() {
@@ -8,8 +9,12 @@ export default function ShowJob() {
     const location = useLocation()
     const logo = location.state.logo
     const job = location.state.job
+    const navigate = useNavigate()
+    const updateJobs = (job) => {
+        navigate(`/employer/job/update/${job._id}`, {state: {job:job}})
+    }
   return (
-    <div className='container-fluid'>
+    <div className='container-fluid mb-3'>
         <p> Job name: {job.name} </p>
         <img className="d-block w-100" src={"http://localhost:8000/" + logo} alt="" />
         <p>Job category: {job.job_category}</p>
@@ -21,6 +26,7 @@ export default function ShowJob() {
         <p>Other Specification: {job.other_specification[0]}</p>
         <p>Skills Required: {job.skills_required.join(" , ")}</p>
         <p>Job Description: {job.job_description[0]}</p>
+        <button onClick={() => updateJobs(job)} type="submit" style={{ width: '50%' }} className="btn btn-primary">Update Jobs</button>
     </div>
   )
 }

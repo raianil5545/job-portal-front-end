@@ -2,29 +2,52 @@ import React from 'react';
 import { useContext } from 'react';
 import jobContext from '../Context/jobcontext';
 import { memo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
+import ReactPaginate from 'react-paginate';
+import "../style.css"
+
+import JobPage from './JobPage';
 
 
 function ShowJobs(props) {
-    const jobs = useContext(jobContext)
-    const navigate = useNavigate()
-    const handleOnClick = (index) => {
-        navigate(`/job/show/${jobs[index]._id}`, {state:{job:jobs[index], logo: props.logo}})
-    }
+    const jobsCtx = useContext(jobContext)
+    const jobsRdx = useSelector((state => (state.jobs.jobs)))
+    const jobs = (jobsCtx.length > 0) ? jobsCtx : jobsRdx
+    const profile_logo = useSelector((state) => (state.profile.profile.logo))
+    const logo = (props?.logo?.length > 0) ? props.logo : profile_logo
+
+    const [currentItems, setCurrentItems] = useState(null);
+    const [pageCount, setPageCount] = useState(0);
+    const [itemOffset, setItemOffset] = useState(0);
+    const itemsPerPage = 10;
+
+    useEffect(() => {
+        const endOffset = itemOffset + itemsPerPage;
+        setCurrentItems(jobs.slice(itemOffset, endOffset));
+        setPageCount(Math.ceil(jobs.length / itemsPerPage));
+    }, [itemOffset, itemsPerPage, jobs]);
+
+    const handlePageClick = (event) => {
+        const newOffset = (event.selected * itemsPerPage) % jobs.length;
+        setItemOffset(newOffset);
+    };
+
     return (
         <>
-            <div className='row' id="one">
-                {
-                    jobs.map((job, index) => {
-                        return <div className='col-md-4 mb-3 mx-auto' onClick={() => handleOnClick(index)} style={{"cursor": "pointer"}}>
-                            <div id="carouselExampleControls" className="carousel slide" data-ride="carousel">
-                                <p> Job name: {job.job_name} </p>
-                                <img className="d-block w-100" src={"http://localhost:8000/" + props.logo} alt="" />
-                            </div>
-                        </div>
-                    })
-                }
-
+            <JobPage currentItems={currentItems} logo={logo} />
+            <div className='app-page'>
+                <ReactPaginate className='justify-content-center'
+                    nextLabel={"Next →"}
+                    pageCount={pageCount}
+                    onPageChange={handlePageClick}
+                    containerClassName={"pagination"}
+                    previousLinkClassName={"pagination__link"}
+                    nextLinkClassName={"pagination__link"}
+                    disabledClassName={"pagination__link--disabled"}
+                    activeClassName={"pagination__link--active"}
+                    renderOnZeroPageCount={null}
+                />
             </div>
         </>
     )
