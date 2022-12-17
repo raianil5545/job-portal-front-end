@@ -2,10 +2,12 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import {useLocation} from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 
 export default function ShowJob() {
     let { id } = useParams();
+    const user = useSelector((state) => (state.auth.user))
     const location = useLocation()
     const logo = location.state.logo
     const job = location.state.job
@@ -26,7 +28,11 @@ export default function ShowJob() {
         <p>Other Specification: {job.other_specification[0]}</p>
         <p>Skills Required: {job.skills_required.join(" , ")}</p>
         <p>Job Description: {job.job_description[0]}</p>
-        <button onClick={() => updateJobs(job)} type="submit" style={{ width: '50%' }} className="btn btn-primary">Update Jobs</button>
+        {
+          user.role === "employer" &&
+          <button onClick={() => updateJobs(job)} type="submit" style={{ width: '50%' }} className="btn btn-primary">Update Jobs</button>
+        }
+        
     </div>
   )
 }

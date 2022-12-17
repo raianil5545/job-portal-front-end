@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setProfileStatus, addProfile } from "../redux/reducer/profile";
 import {setjobExist, addJobs} from "../redux/reducer/jobs"
+import { useNavigate } from 'react-router-dom';
 
 
 import Background from "../images/job-poster.jpg";
@@ -12,6 +13,7 @@ import jobContext from '../Context/jobcontext';
 
 export default function Home() {
   let dispatch = useDispatch();
+  const navigate = useNavigate()
   let [loading, setLoading] = useState(true);
   let [loadingJobs, setloadingJobs] = useState(true)
   let [jobs, setJobs] = useState([])
@@ -34,7 +36,7 @@ export default function Home() {
         setLoading(false)
       })
     }
-    else {
+    else if (accessToken) {
       axios.get(`${process.env.REACT_APP_SERVER_URL}/applicant/profile`, {
         headers: {
           Authorization: `Bearer ${accessToken}`
@@ -46,6 +48,9 @@ export default function Home() {
         }
         setLoading(false)
       })
+    }
+    else {
+      setLoading(false)
     }
   }, [])
 
@@ -64,7 +69,29 @@ export default function Home() {
         setloadingJobs(false)
       })
     }
+    else {
+      setloadingJobs(false)
+    }
   }, [user.role])
+
+  useEffect(() => {
+    if (Object.keys(user).length === 0) {
+      axios.get(`${process.env.REACT_APP_SERVER_URL}/user/jobs`).then(
+        (res) => {
+          dispatch(setjobExist())
+          dispatch(addJobs(res?.data?.data))
+          setloadingJobs(false)
+        }
+      ).catch((err) => {
+        console.log(err)
+      })
+    }
+    else {
+      setloadingJobs(false)
+    }
+  }
+  , [])
+
   const [jobSearch, setJobSearch] = useState(
     {
       search_term: "",
@@ -77,6 +104,7 @@ export default function Home() {
       [name]: value
     })
   }
+  
   if (loading) {
     return <div class="spinner-border" role="status">
       <span class="visually-hidden">Loading...</span>
@@ -126,6 +154,12 @@ export default function Home() {
           user.role === "employer" &&
           jobs.length > 0 &&
           <jobContext.Provider value={jobs}>
+            <ShowJobs logo={profile.logo} />
+          </jobContext.Provider>
+        }
+        {
+          Object.keys(user).length === 0 &&
+         <jobContext.Provider value={jobs}>
             <ShowJobs logo={profile.logo} />
           </jobContext.Provider>
         }
