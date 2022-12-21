@@ -3,8 +3,9 @@ import axios from 'axios';
 import { Modal, Button, Form } from "react-bootstrap";
 import { useNavigate, Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { userLogIn, setUser, setToken } from "../redux/reducer/auth"
 
+
+import { userLogIn, setUser, setToken } from "../redux/reducer/auth";
 import { validEmail, validPassword } from "../utils/validator";
 import ErrorText from '../component/ErrorText';
 import "bootstrap/dist/css/bootstrap.css";
@@ -19,44 +20,44 @@ const LoginForm = ({ onSubmit , error}) => {
         }
     );
 
-    const [logInErrors, setLoginErrors] = useState({})
+    let [logInErrors, setLoginErrors] = useState({})
 
     function handleChange(event) {
-        const { name, value } = event.target
+        const { name, value } = event.target;
         if (name === "email") {
-            setLoginErrors({})
+            setLoginErrors({});
             if (!validEmail.test(value)) {
                 setLoginErrors(
                     {
                         ...logInErrors,
                         [name]: "invalid email address"
                     }
-                )
+                );
             }
         }
 
         if (name === "password") {
-            setLoginErrors({})
+            setLoginErrors({});
             if (!validPassword.test(value)) {
                 setLoginErrors({
                     ...logInErrors,
                     [name]: "Password must be minimum 8 character long. Password must contain atleast one lowercase, uppercase, number and special character."
-                })
+                });
             }
         }
         if (name === "remember_me"){
             setLoginData(
                 {
                     ...loginData,
-                    ["rememberUser"]: !loginData.rememberUser
+                    [name]: !loginData.rememberUser
                 }
-            )
+            );
         }
         else {
             setLoginData({
                 ...loginData,
                 [name]: value
-            })
+            });
         }
     }
 
@@ -106,16 +107,18 @@ export default function Login() {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const [apiCallErr, setApiCallErr] = useState({})
-    let navigate = useNavigate()
-    let dispatch = useDispatch()
+    const [apiCallErr, setApiCallErr] = useState({});
+
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
 
-    const onLoginFormSubmit = (e) => {
-        e.preventDefault();
-        let email = e.target.email.value
-        let password = e.target.password.value
-        let rememberUser = e.target.remember_me.value
+    const onLoginFormSubmit = (event) => {
+        event.preventDefault();
+
+        const email = event.target.email.value;
+        const password = event.target.password.value;
+        const rememberUser = event.target.remember_me.value;
     
         axios.post(`${process.env.REACT_APP_SERVER_URL}/user/login`, {
             email,
@@ -123,11 +126,11 @@ export default function Login() {
         }).then((response) => {
             navigate("/")
             if (rememberUser === "true"){
-                localStorage.setItem("accessToken", response.data.accessToken)
+                localStorage.setItem("accessToken", response.data.accessToken);
             }
-            dispatch(setUser(response.data.user))
-            dispatch(setToken(response.data.accessToken))
-            dispatch(userLogIn())
+            dispatch(setUser(response.data.user));
+            dispatch(setToken(response.data.accessToken));
+            dispatch(userLogIn());
             handleClose();
         }).catch((err) => {
             setApiCallErr();
@@ -137,11 +140,11 @@ export default function Login() {
                         return {
                             ...prevErr,
                             [el.param]: el.msg
-                        }
-                    })
+                        };
+                    });
                 }
             )
-        })
+        });
     };
 
     return (

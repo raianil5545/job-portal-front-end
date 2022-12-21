@@ -1,5 +1,5 @@
 import { createContext } from "react";
 
-const jobContext = createContext([])
+const jobContext = createContext([]);
 
-export default jobContext
+export default jobContext;

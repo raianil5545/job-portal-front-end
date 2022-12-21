@@ -6,9 +6,9 @@ import { useNavigate } from 'react-router-dom';
 
 
 export default function UpdateEmployerProfile() {
-  let profile = useSelector((state) => (state.profile.profile))
-  let navigate = useNavigate()
-  let reduxAccessToken = useSelector((state) => (state.auth.token))
+  const profile = useSelector((state) => (state.profile.profile));
+  const navigate = useNavigate();
+  const reduxAccessToken = useSelector((state) => (state.auth.token));
 
   let [updateProfileData, setProfileData] = useState({
     headquarter_address: profile.headquarter_address,
@@ -16,65 +16,70 @@ export default function UpdateEmployerProfile() {
     locations: profile.locations.join(" , "),
     logo: [],
     website_url: profile.website_url
-  })
+  });
 
-  let handleChange = (event) => {
-    let { name, value } = event.target
-    if (event.target.type === "file"){
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    if (event.target.type === "file") {
       setProfileData({
         ...updateProfileData,
         [name]: event.target.files
-      })
+      });
     }
-    else if (["street", "city", "province"].includes(name)){
+    else if (["street", "city", "province"].includes(name)) {
       setProfileData((prevState) => ({
         ...prevState,
         headquarter_address: {
-            ...prevState.headquarter_address,
-            [name]: value
+          ...prevState.headquarter_address,
+          [name]: value
         }
-    }))
+      }));
     }
     else {
       setProfileData({
         ...updateProfileData,
         [name]: value
-      })
+      });
     }
   }
 
-  let handleSubmit = (event) => {
-    event.preventDefault()
-    const {headquarter_address, founded_year, locations, logo, website_url} = updateProfileData
-    let form_data = new FormData()
-    if (founded_year){
-      form_data.append("founded_year", founded_year)
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const { headquarter_address, founded_year, locations, logo, website_url } = updateProfileData;
+    let form_data = new FormData();
+
+    if (founded_year) {
+      form_data.append("founded_year", founded_year);
     }
-    if (headquarter_address !== profile.headquarter_address){
-      form_data.append("headquarter_address", JSON.stringify(headquarter_address))
+    if (headquarter_address !== profile.headquarter_address) {
+      form_data.append("headquarter_address", JSON.stringify(headquarter_address));
     }
-    if (locations !== profile.locations.join(" , ")){
-      form_data.append("locations", locations)
+    if (locations !== profile.locations.join(" , ")) {
+      let locations_arr = locations.split(",");
+      locations_arr.forEach(el => {
+        form_data.append("locations[]", el);
+      });
     }
-    if (website_url !== profile.website_url){
-      form_data.append("website_url", website_url)
+    if (website_url !== profile.website_url) {
+      form_data.append("website_url", website_url);
     }
-    let logo_arr = [...logo]
+    let logo_arr = [...logo];
     logo_arr.forEach(el => {
-      form_data.append("logo", el)
-    })
+      form_data.append("logo", el);
+    });
+
     axios({
       method: "put",
       url: `${process.env.REACT_APP_SERVER_URL}/employer/profile/update`,
       data: form_data,
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("accessToken") ? localStorage.getItem("accessToken") : reduxAccessToken}`
-            }
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken") ? localStorage.getItem("accessToken") : reduxAccessToken}`
+      }
     }).then(res => {
-      navigate("/")
+      navigate("/");
     }).catch(err => {
-      console.log(err)
-    })
+      console.log(err);
+    });
   }
 
   return (
@@ -83,7 +88,7 @@ export default function UpdateEmployerProfile() {
         <div className='mb-3'>
           <label for="formFileSm" class="form-label">Founded Year</label>
           <input className="form-control" type="date"
-           name="founded_year" placeholder='MM/DD/YY'
+            name="founded_year" placeholder='MM/DD/YY'
             onChange={handleChange} />
         </div>
         <div className='mb-3'>
@@ -130,5 +135,5 @@ export default function UpdateEmployerProfile() {
         <button type="submit" style={{ width: '100%' }} className="btn btn-primary">Submit</button>
       </form>
     </>
-  )
+  );
 }

@@ -7,11 +7,11 @@ import ErrorText from '../component/ErrorText';
 
 
 export default function CreateApplicantProfile() {
-    let navigate = useNavigate()
-    let reduxAccessToken = useSelector((state) => (state.auth.token))
+    const navigate = useNavigate()
+    const reduxAccessToken = useSelector((state) => (state.auth.token))
     let [profileData, setProfileData] = useState({
         level: "",
-        skills: "",
+        skills: [],
         experience: "",
         date_of_birth: "",
         gender: "",
@@ -26,18 +26,18 @@ export default function CreateApplicantProfile() {
             city: "",
             province: ""
         },
-        job_location: ""
-    })
+        job_location: []
+    });
 
-    let [apiErrors, setApiCallErr] = useState({})
+    let [apiErrors, setApiCallErr] = useState({});
 
-    let handleChange = (event) => {
-        let { name, value } = event.target
+    const handleChange = (event) => {
+        const { name, value } = event.target;
         if (event.target.type === "file") {
             setProfileData({
                 ...profileData,
                 [name]: event.target.files
-            })
+            });
         }
         else {
             if (["condition", "amount"].includes(name)) {
@@ -47,7 +47,7 @@ export default function CreateApplicantProfile() {
                         ...prevState.expected_salary,
                         [name]: value
                     }
-                }))
+                }));
             }
             else if (["street", "city", "province"].includes(name)) {
                 setProfileData((prevState) => ({
@@ -56,47 +56,58 @@ export default function CreateApplicantProfile() {
                         ...prevState.current_address,
                         [name]: value
                     }
-                }))
+                }));
             }
             else {
                 setProfileData({
                     ...profileData,
                     [name]: value
-                })
+                });
             }
         }
     }
 
-    let handleSubmit = (event) => {
-        event.preventDefault()
+    const handleSubmit = (event) => {
+        event.preventDefault();
+
+        let form_data = new FormData();
         let { level, skills, experience,
             date_of_birth, gender,
             expected_salary, profile_pic,
             resume, current_address,
-            job_location } = profileData
+            job_location } = profileData;
 
-        let form_data = new FormData();
-        form_data.append("level", level)
-        form_data.append("skills", skills.split(","))
-        form_data.append("experience", experience)
-        form_data.append("date_of_birth", date_of_birth)
-        form_data.append("gender", gender)
-        form_data.append("current_address", JSON.stringify(current_address))
-        form_data.append("expected_salary", JSON.stringify(expected_salary))
-        form_data.append("job_location", job_location)
+        form_data.append("level", level);
+        form_data.append("skills", skills.split(","));
+        form_data.append("experience", experience);
+        form_data.append("date_of_birth", date_of_birth);
+        form_data.append("gender", gender);
+        form_data.append("current_address", JSON.stringify(current_address));
+        form_data.append("expected_salary", JSON.stringify(expected_salary));
 
-        let profile_pic_arr = [...profile_pic]
+        let locations_arr = job_location.split(",");
+        locations_arr.forEach(el => {
+            form_data.append("job_location[]", el);
+        });
+
+        let skills_arr = skills.split(",");
+        skills_arr.forEach(el => {
+            form_data.append("skills[]", el);
+        });
+
+        let profile_pic_arr = [...profile_pic];
         profile_pic_arr.forEach(
             el => {
                 form_data.append("profile_pic", el);
             }
-        )
-        let resume_arr = [...resume]
+        );
+
+        let resume_arr = [...resume];
         resume_arr.forEach(
             el => {
                 form_data.append("resume", el);
             }
-        )
+        );
 
         axios({
             method: "post",
@@ -107,23 +118,22 @@ export default function CreateApplicantProfile() {
             }
         }).then(
             (res) => {
-                console.log(res)
-                navigate("/")
+                navigate("/");
             }
         ).catch(
             (err) => {
-                setApiCallErr({})
+                setApiCallErr({});
                 err?.response?.data?.errors?.forEach(el => {
                     setApiCallErr((prev) => {
                         return {
                             ...prev,
                             [el.param]: el.msg
                         }
-                    })
+                    });
                 })
-                navigate("/applicant/profile/create")
+                navigate("/applicant/profile/create");
             }
-        )
+        );
     }
 
     return (
@@ -253,5 +263,5 @@ export default function CreateApplicantProfile() {
                 <button type="submit" style={{ width: '100%' }} className="btn btn-primary">Submit</button>
             </form>
         </>
-    )
+    );
 }

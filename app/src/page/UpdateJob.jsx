@@ -9,12 +9,12 @@ import axios from 'axios';
 
 
 export default function UpdateJob(props) {
-  let { id } = useParams();
-  const location = useLocation()
-  const reduxAccessToken = useSelector((state) => (state.auth.token))
-  const job = location.state.job 
-  console.log(job)
-  const navigate = useNavigate()
+  const { id } = useParams();
+  const location = useLocation();
+  const reduxAccessToken = useSelector((state) => (state.auth.token));
+  const job = location.state.job;
+  const navigate = useNavigate();
+
   let [jobData, upDateJob] = useState({
       job_name: job.job_name,
         job_category: job.job_category,
@@ -32,10 +32,10 @@ export default function UpdateJob(props) {
         skills_required: job.skills_required.join(", "),
         other_specification: job.other_specification.join("."),
         job_description: job.job_description.join(".")
-  })
+  });
 
   const handleChange = (event) => {
-    const { name, value } = event.target
+    const { name, value } = event.target;
     if (["street_address", "city"].includes(name)){
       upDateJob((prev)=> ({
             ...prev,
@@ -44,34 +44,31 @@ export default function UpdateJob(props) {
                 [name]: value
             }
         }
-        ))
+        ));
     }
     else {
       upDateJob({
             ...jobData,
             [name]: value
-        })
+        });
     }
 }
 
 const handleSubmit = (event) => {
-  console.log("here")
-    event.preventDefault()
-    let data = {...jobData}
-    data["skills_required"] = data.skills_required.split(",")
-    data["job_description"] = data.job_description.split(". ")
-    data["job_location"] = JSON.stringify(data.job_location)
-    data["other_specification"] = data.other_specification.split(". ")
-    console.log(`${process.env.REACT_APP_SERVER_URL}/employer/job/update/${id}`)
+    event.preventDefault();
+    let data = {...jobData};
+    data["skills_required"] = data.skills_required.length > 0? data.skills_required.split(","): [];
+    data["job_description"] = data.job_description.length > 0? data.job_description.split("."): [];
+    data["other_specification"] = data.other_specification.length > 0? data.other_specification.split("."): [];
+    data["job_location"] = JSON.stringify(data.job_location);
     axios.put(`${process.env.REACT_APP_SERVER_URL}/employer/job/update/${id}`, data,
         {headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken") ? localStorage.getItem("accessToken") : reduxAccessToken}`
         }}).then((res) => {
-        console.log(res)
-        navigate("/")
+        navigate("/");
     }).catch((err) => {
-        console.log(err)
-    })
+        console.log(err);
+    });
 }
   
   return (
@@ -179,5 +176,5 @@ const handleSubmit = (event) => {
                 <button type="submit" style={{ width: '100%' }} className="btn btn-primary">Submit</button>
             </form>
     </>
-  )
+  );
 }

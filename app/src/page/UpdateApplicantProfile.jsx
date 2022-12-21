@@ -4,8 +4,9 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 export default function UpdateApplicantProfile() {
-    const profile = useSelector((state) => state.profile.profile)
-    let navigate = useNavigate()
+    const profile = useSelector((state) => state.profile.profile);
+    const navigate = useNavigate();
+
     let [updatedData, setUpdatedData] = useState({
         profile_pic: [],
         resume: [],
@@ -17,63 +18,73 @@ export default function UpdateApplicantProfile() {
         expected_salary: profile.expected_salary,
         current_address: profile.current_address,
         job_location: profile.job_location.join(" , ")
-    })
+    });
 
     function handleSubmit(event) {
-        event.preventDefault()
-        let formData = new FormData()
+        event.preventDefault();
+        let formData = new FormData();
         if (profile.level !== updatedData.level) {
-            formData.append("level", updatedData["level"])
+            formData.append("level", updatedData["level"]);
         }
         if ((profile.skills.join(" , ") !== updatedData.skills)) {
-            formData.append("skills", updatedData["skills"].split(","))
+            let skills_arr = updatedData.skills.split(",");
+            skills_arr.forEach(el => {
+                formData.append("skills[]", el);
+            })
         }
         if (profile.experience !== updatedData.experience) {
-            formData.append("experience", updatedData["experience"])
+            formData.append("experience", updatedData["experience"]);
         }
         if (profile.date_of_birth !== updatedData.date_of_birth) {
-            formData.append("date_of_birth", updatedData["date_of_birth"])
+            formData.append("date_of_birth", updatedData["date_of_birth"]);
         }
         if (profile.gender !== updatedData.gender) {
-            formData.append("gender", updatedData["gender"])
+            formData.append("gender", updatedData["gender"]);
         }
         if (profile.job_location.join(" , ") !== updatedData.job_location) {
-            formData.append("job_location", updatedData["job_location"])
+            let locations_arr = updatedData.job_location.split(",");
+            locations_arr.forEach(el => {
+                formData.append("job_location[]", el);
+            });
         }
         if (profile.expected_salary !== updatedData.expected_salary) {
-            formData.append("expected_salary", JSON.stringify(updatedData["expected_salary"]))
+            formData.append("expected_salary", JSON.stringify(updatedData["expected_salary"]));
         }
         if (profile.current_address !== updatedData.current_address) {
-            formData.append("current_address", JSON.stringify(updatedData["current_address"]))
+            formData.append("current_address", JSON.stringify(updatedData["current_address"]));
         }
-        let profile_pic = updatedData["profile_pic"]
-        let profile_pic_arr = [...profile_pic]
-        let resume = updatedData["resume"]
-        let resume_arr = [...resume]
+
+        let profile_pic = updatedData["profile_pic"];
+        let profile_pic_arr = [...profile_pic];
+        let resume = updatedData["resume"];
+        let resume_arr = [...resume];
+
         profile_pic_arr.forEach(el => {
             formData.append("profile_pic", el)
-        })
+        });
+
         resume_arr.forEach(el => {
             formData.append("resume", el)
-        })
+        });
+
         axios.put(`${process.env.REACT_APP_SERVER_URL}/applicant/profile/update`, formData, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("accessToken")}`
             }
         }).then((res => {
-            navigate("/")
+            navigate("/");
         })).catch((err) => {
-            console.log(err)
-        })
+            console.log(err);
+        });
     }
 
     function handleChange(event) {
-        let { name, value } = event.target
+        const { name, value } = event.target;
         if (event.target.type === "file") {
             setUpdatedData({
                 ...updatedData,
                 [name]: event.target.files
-            })
+            });
         }
         else {
             if (["condition", "amount"].includes(name)) {
@@ -83,7 +94,7 @@ export default function UpdateApplicantProfile() {
                         ...prevState.expected_salary,
                         [name]: value
                     }
-                }))
+                }));
             }
             else if (["street", "city", "province"].includes(name)) {
                 setUpdatedData((prevState) => ({
@@ -92,13 +103,13 @@ export default function UpdateApplicantProfile() {
                         ...prevState.current_address,
                         [name]: value
                     }
-                }))
+                }));
             }
             else {
                 setUpdatedData({
                     ...updatedData,
                     [name]: value
-                })
+                });
             }
         }
     }
@@ -203,5 +214,5 @@ export default function UpdateApplicantProfile() {
                 <button type="submit" style={{ width: '100%' }} className="btn btn-primary">Submit</button>
             </form>
         </>
-    )
+    );
 }

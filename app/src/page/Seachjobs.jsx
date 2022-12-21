@@ -19,7 +19,7 @@ export default function Seachjobs() {
                     <Link style={{ padding: "25px" }} to="#">by Job Title</Link>
                 </div>
             </div>
-            <div className='d-flex justify-content-center' style={{padding: "2%"}}>
+            <div className='d-flex justify-content-center' style={{ padding: "2%" }}>
                 <select className='mx-2' name="category" id="category">
                     <option value="" selected disabled hidden>Job Categories</option>
                     <option value="Architecture / Interior Designing">Architecture / Interior Designing</option>
@@ -102,5 +102,5 @@ export default function Seachjobs() {
                 <button className='btn-primary mx-2'>Clear all</button>
             </div>
         </>
-    )
+    );
 }

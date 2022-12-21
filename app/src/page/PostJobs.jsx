@@ -5,11 +5,15 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 
-import { jobLevels, educationLevels, empoymentTypes, experinceLevel, jobCategories } from "../constant/job"
+import {
+    jobLevels, educationLevels,
+    empoymentTypes, experinceLevel,
+    jobCategories
+} from "../constant/job";
 
 export default function PostJobs() {
-    const reduxAccessToken = useSelector((state) => (state.auth.token))
-    const navigate = useNavigate()
+    const reduxAccessToken = useSelector((state) => (state.auth.token));
+    const navigate = useNavigate();
 
     let [jobData, setJobData] = useState({
         job_name: "",
@@ -25,37 +29,39 @@ export default function PostJobs() {
         application_dead_line: "",
         education_level: "",
         experience_level: "",
-        skills_required: "",
-        other_specification: "",
-        job_description: ""
-    })
+        skills_required: [],
+        other_specification: [],
+        job_description: []
+    });
+
     const handleChange = (event) => {
-        const { name, value } = event.target
-        if (["street_address", "city"].includes(name)){
-            setJobData((prev)=> ({
+        const { name, value } = event.target;
+        if (["street_address", "city"].includes(name)) {
+            setJobData((prev) => ({
                 ...prev,
                 job_location: {
                     ...prev.job_location,
                     [name]: value
                 }
             }
-            ))
+            ));
         }
         else {
             setJobData({
                 ...jobData,
                 [name]: value
-            })
+            });
         }
-    }
+    };
 
     const handleSubmit = (event) => {
-        event.preventDefault()
-        let data = {...jobData}
-        data["skills_required"] = data.skills_required.split(",")
-        data["job_description"] = data.job_description.split(". ")
-        data["job_location"] = JSON.stringify(data.job_location)
-        data["other_specification"] = data.other_specification.split(". ")
+        event.preventDefault();
+        let data = { ...jobData };
+        data["skills_required"] = data.skills_required.length > 0 ? data.skills_required.split(",") : [];
+        data["job_description"] = data.job_description.length > 0 ? data.job_description.split(".") : [];
+        data["other_specification"] = data.other_specification.length > 0 ? data.other_specification.split(".") : [];
+        data["job_location"] = JSON.stringify(data.job_location);
+
         axios({
             method: "post",
             url: `${process.env.REACT_APP_SERVER_URL}/employer/job/post`,
@@ -64,16 +70,15 @@ export default function PostJobs() {
                 Authorization: `Bearer ${localStorage.getItem("accessToken") ? localStorage.getItem("accessToken") : reduxAccessToken}`
             }
         }).then((res) => {
-            console.log(res)
-            navigate("/")
+            navigate("/");
         }).catch((err) => {
-            console.log(err)
+            console.log(err);
         })
     }
     return (
         <>
             <form className='mb-3' onSubmit={handleSubmit}>
-            <div className='mb-3'>
+                <div className='mb-3'>
                     <label for="job_name" class="form-label"> Job Name </label>
                     <input className="form-control" type="text" name="job_name" placeholder='Job Name'
                         value={jobData.job_name} onChange={handleChange} />
@@ -168,7 +173,7 @@ export default function PostJobs() {
                 </div>
                 <div className='mb-3'>
                     <label for="other_specification" class="form-label"> Other Specification </label>
-                        <textarea className="form-control" name="other_specification" 
+                    <textarea className="form-control" name="other_specification"
                         onChange={handleChange} />
                 </div>
                 <div className='mb-3'>
@@ -179,5 +184,5 @@ export default function PostJobs() {
                 <button type="submit" style={{ width: '100%' }} className="btn btn-primary">Submit</button>
             </form>
         </>
-    )
+    );
 }

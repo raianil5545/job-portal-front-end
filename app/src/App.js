@@ -27,9 +27,8 @@ import ShowJobs from "./page/ShowJobs";
 
 
 function App() {
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(()=>{
     if (localStorage.getItem("accessToken")){
@@ -38,17 +37,17 @@ function App() {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`
         }
       }).then(res => {
-        dispatch(userLogIn())
-        dispatch(setUser(res.data))
+        dispatch(userLogIn());
+        dispatch(setUser(res.data));
       })
       .catch(err => {
-        dispatch(userLogout())
-      })
+        dispatch(userLogout());
+      });
     }
     else {
-      navigate("/")
+      navigate("/");
     }
-  }, [])
+  }, []);
 
   return (
     <>

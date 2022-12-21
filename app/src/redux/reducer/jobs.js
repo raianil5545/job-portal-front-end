@@ -19,8 +19,8 @@ export const jobSlice = createSlice(
             },
         },
     }
-)
+);
 
-export const { setjobExist, resetjobExist, addJobs } = jobSlice.actions
+export const { setjobExist, resetjobExist, addJobs } = jobSlice.actions;
 
-export default jobSlice.reducer
+export default jobSlice.reducer;

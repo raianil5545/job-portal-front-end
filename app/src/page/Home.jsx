@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setProfileStatus, addProfile } from "../redux/reducer/profile";
-import {setjobExist, addJobs} from "../redux/reducer/jobs"
-import { useNavigate } from 'react-router-dom';
+import {setjobExist, addJobs} from "../redux/reducer/jobs";
 
 
 import Background from "../images/job-poster.jpg";
@@ -12,14 +11,13 @@ import jobContext from '../Context/jobcontext';
 
 
 export default function Home() {
-  let dispatch = useDispatch();
-  const navigate = useNavigate()
+  const dispatch = useDispatch();
   let [loading, setLoading] = useState(true);
-  let [loadingJobs, setloadingJobs] = useState(true)
-  let [jobs, setJobs] = useState([])
-  let accessToken = useSelector((state) => (state.auth.token))
-  const user = useSelector((state) => (state.auth.user))
-  const profile = useSelector((state) => (state.profile.profile))
+  let [loadingJobs, setloadingJobs] = useState(true);
+  let [jobs, setJobs] = useState([]);
+  const accessToken = useSelector((state) => (state.auth.token));
+  const user = useSelector((state) => (state.auth.user));
+  const profile = useSelector((state) => (state.profile.profile));
 
 
   useEffect(() => {
@@ -30,11 +28,11 @@ export default function Home() {
         }
       }).then(res => {
         if (res.data.length > 0) {
-          dispatch(setProfileStatus())
-          dispatch(addProfile(res.data[0]))
+          dispatch(setProfileStatus());
+          dispatch(addProfile(res.data[0]));
         }
-        setLoading(false)
-      })
+        setLoading(false);
+      });
     }
     else if (accessToken) {
       axios.get(`${process.env.REACT_APP_SERVER_URL}/applicant/profile`, {
@@ -43,67 +41,83 @@ export default function Home() {
         }
       }).then(res => {
         if (res.data.length > 0) {
-          dispatch(setProfileStatus())
-          dispatch(addProfile(res.data[0]))
+          dispatch(setProfileStatus());
+          dispatch(addProfile(res.data[0]));
         }
-        setLoading(false)
-      })
+        setLoading(false);
+      });
     }
     else {
-      setLoading(false)
+      setLoading(false);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
-    if (user.role == "employer") {
+    if (user.role === "employer") {
       axios.get(`${process.env.REACT_APP_SERVER_URL}/employer/jobs`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken") ? localStorage.getItem("accessToken") : accessToken}`
         }
       }).then(res => {
         if (res?.data?.length > 0) {
-          setJobs(res.data)
-          dispatch(setjobExist())
-          dispatch(addJobs(res.data))
+          setJobs(res.data);
+          dispatch(setjobExist());
+          dispatch(addJobs({})); // clearing prev jobs
+          dispatch(addJobs(res.data));
         }
-        setloadingJobs(false)
+        setloadingJobs(false);
+      });
+    }
+    else if (user.role === "applicant") {
+      axios.get(`${process.env.REACT_APP_SERVER_URL}/applicant/jobs`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken") ? localStorage.getItem("accessToken") : accessToken}`
+        }
+      }).then(res => {
+        if (res?.data?.length > 0) {
+          setJobs(res.data);
+          dispatch(setjobExist());
+          dispatch(addJobs({})); // clearing prev jobs
+          dispatch(addJobs(res.data));
+        }
+        setloadingJobs(false);
       })
     }
     else {
-      setloadingJobs(false)
+      setloadingJobs(false);
     }
-  }, [user.role])
+  }, [user.role]);
 
   useEffect(() => {
     if (Object.keys(user).length === 0) {
       axios.get(`${process.env.REACT_APP_SERVER_URL}/user/jobs`).then(
         (res) => {
-          dispatch(setjobExist())
-          dispatch(addJobs(res?.data?.data))
-          setloadingJobs(false)
+          dispatch(setjobExist());
+          dispatch(addJobs(res?.data));
+          setloadingJobs(false);
         }
       ).catch((err) => {
-        console.log(err)
+        console.log(err);
       })
     }
     else {
-      setloadingJobs(false)
+      setloadingJobs(false);
     }
   }
-  , [])
+  , []);
 
   const [jobSearch, setJobSearch] = useState(
     {
       search_term: "",
     }
-  )
+  );
 
   function handleSearch(event) {
-    let { name, value } = event.target
+    const { name, value } = event.target;
     setJobSearch({
       [name]: value
-    })
-  }
+    });
+  };
   
   if (loading) {
     return <div class="spinner-border" role="status">
@@ -160,6 +174,13 @@ export default function Home() {
         {
           Object.keys(user).length === 0 &&
          <jobContext.Provider value={jobs}>
+            <ShowJobs logo={profile.logo} />
+          </jobContext.Provider>
+        }
+        {
+          user.role === "applicant" &&
+          jobs.length > 0 &&
+          <jobContext.Provider value={jobs}>
             <ShowJobs logo={profile.logo} />
           </jobContext.Provider>
         }

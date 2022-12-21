@@ -1,5 +1,5 @@
 import { createContext } from "react";
 
-const proileContext = createContext([])
+const proileContext = createContext([]);
 
-export default proileContext
+export default proileContext;

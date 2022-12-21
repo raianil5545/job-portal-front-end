@@ -1,5 +1,5 @@
 import React from 'react';
-import Faqbackground from "../images/faq-background.jpg"
+import Faqbackground from "../images/faq-background.jpg";
 
 export default function Faq() {
     return (
@@ -196,5 +196,5 @@ export default function Faq() {
                 <button className="btn-primary" style={{ marginRight: "5%" }}><span><i class="fa fa-sign-in" style={{ fontSize: "15px" }}></i></span>  Login  </button>
             </div>
         </>
-    )
+    );
 }

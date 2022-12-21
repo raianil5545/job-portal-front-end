@@ -5,7 +5,7 @@ import ErrorText from '../component/ErrorText';
 
 
 export default function Signup({ usertype }) {
-    let navigate = useNavigate();
+    const navigate = useNavigate();
     let [signUpData, setsignUpData] = useState(
         {
             name: "",
@@ -14,11 +14,11 @@ export default function Signup({ usertype }) {
             role: "",
             mobile_number: ""
         }
-    )
+    );
 
     let [errAPIcalData, seterrAPICall] = useState(
         {}
-    )
+    );
 
     function handleChange(event) {
         const { name, value } = event.target
@@ -27,13 +27,13 @@ export default function Signup({ usertype }) {
             [name]: value,
             role: usertype
         })
-    }
+    };
 
-    let handleSubmit = (event) => {
-        event.preventDefault()
-        let { name, email, password, role, mobile_number } = signUpData
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const { name, email, password, role, mobile_number } = signUpData;
         
-        var login_path = (role === "employer") ? "/employer/login" : "/jobseeker/login"
+        var login_path = (role === "employer") ? "/employer/login" : "/jobseeker/login";
         axios.post(`${process.env.REACT_APP_SERVER_URL}/user/signup`, {
             name, 
             email,
@@ -51,10 +51,10 @@ export default function Signup({ usertype }) {
                         ...prevErr,
                         [el.param]: el.msg
                     }
-                   })
+                   });
                 }
-            )
-        })
+            );
+        });
     }
     return (
         <>
@@ -102,5 +102,5 @@ export default function Signup({ usertype }) {
                 <button type="submit" style={{width: '100%'}} className="btn btn-primary">Submit</button>
             </form>
         </>
-    )
+    );
 }

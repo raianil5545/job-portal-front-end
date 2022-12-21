@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 export default function JobPage({ currentItems, logo}) {
     const navigate = useNavigate();
     const handleOnClick = (index) => {
-        navigate(`/job/show/${currentItems[index]._id}`, { state: { job: currentItems[index], logo: logo } })
+        navigate(`/job/show/${currentItems[index]._id}`, { state: { job: currentItems[index], logo: logo } });
     }
     return (
         <>
@@ -23,5 +23,5 @@ export default function JobPage({ currentItems, logo}) {
 
             </div>
         </>
-    )
+    );
 }

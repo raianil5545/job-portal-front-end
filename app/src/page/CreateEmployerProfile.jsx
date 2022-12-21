@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 export default function CreateEmployerProfile() {
-    let [employerProfileData, setEmployerProfile] = useState({
+    const [employerProfileData, setEmployerProfile] = useState({
         founded_year: "",
         website_url: "",
         logo: [],
@@ -14,19 +14,19 @@ export default function CreateEmployerProfile() {
             city: "",
             province: ""
         },
-        locations: ""
-    })
+        locations: []
+    });
 
-    let navigate = useNavigate()
-    let reduxAccessToken = useSelector((state) => (state.auth.token))
+    const navigate = useNavigate();
+    const reduxAccessToken = useSelector((state) => (state.auth.token));
 
-    let handleChange = (event) => {
-        let { name, value } = event.target
+    const handleChange = (event) => {
+        const { name, value } = event.target
         if (event.target.type === "file"){
             setEmployerProfile({
                 ...employerProfileData,
                 [name]: event.target.files
-            })
+            });
         }
         else if (["street", "city", "province"].includes(name)){
             setEmployerProfile((prevState) => ({
@@ -35,29 +35,35 @@ export default function CreateEmployerProfile() {
                     ...prevState.headquarter_address,
                     [name]: value
                 }
-            }))
+            }));
         }
         else {
             setEmployerProfile({
                 ...employerProfileData,
                 [name]: value
-            })
+            });
         }
-    }
+    };
 
-    let handleSubmit = (event) => {
+    const handleSubmit = (event) => {
         event.preventDefault();
         let formData = new FormData();
-        let { founded_year, website_url, logo, headquarter_address, locations } = employerProfileData
-        formData.append("founded_year", founded_year)
-        formData.append("website_url", website_url)
-        let logo_arr = [...logo]
+
+        let { founded_year, website_url, logo, headquarter_address, locations } = employerProfileData;
+        formData.append("founded_year", founded_year);
+        formData.append("website_url", website_url);
+
+        let logo_arr = [...logo];
         logo_arr.forEach((el) => {
             formData.append("logo", el)
-        })
-        formData.append("headquarter_address", JSON.stringify(headquarter_address))
-        let locations_arr = locations.split(",")
-        formData.append("locations", locations_arr)
+        });
+
+        formData.append("headquarter_address", JSON.stringify(headquarter_address));
+
+        let locations_arr = locations.split(",");
+        locations_arr.forEach(el => {
+            formData.append("locations[]", el)
+        });
           
         axios({
             method: "post",
@@ -68,25 +74,15 @@ export default function CreateEmployerProfile() {
             }
         }).then(
             (res) => {
-                console.log(res)
-                navigate("/")
+                navigate("/");
             }
         ).catch(
             (err) => {
-                // setApiCallErr({})
-                // err?.response?.data?.errors?.forEach(el => {
-                //     setApiCallErr((prev) => {
-                //         return {
-                //             ...prev,
-                //             [el.param]: el.msg
-                //         }
-                //     })
-                // })
-                // navigate("/applicant/profile/create")
-                console.log(err)
+                console.log(err);
             }
-        )
+        );
     }
+    
     return (
         <>
             <form onSubmit={handleSubmit}>
@@ -141,5 +137,5 @@ export default function CreateEmployerProfile() {
                 <button type="submit" style={{ width: '100%' }} className="btn btn-primary">Submit</button>
             </form>
         </>
-    )
+    );
 }

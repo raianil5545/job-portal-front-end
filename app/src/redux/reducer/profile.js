@@ -19,8 +19,10 @@ export const profileSlice = createSlice(
             },
         },
     }
-)
+);
 
-export const { setProfileStatus, addProfile, resetProfileStatus } = profileSlice.actions
+export const { setProfileStatus,
+    addProfile,
+    resetProfileStatus } = profileSlice.actions;
 
-export default profileSlice.reducer
+export default profileSlice.reducer;

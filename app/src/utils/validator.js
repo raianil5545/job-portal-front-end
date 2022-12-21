@@ -8,4 +8,4 @@ const validPassword = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%
 module.exports = {
     validEmail,
     validPassword
-}
+};

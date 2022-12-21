@@ -5,9 +5,9 @@ import { useSelector } from 'react-redux';
 import Login from "../page/Login";
 
 export default function Navbar() {
-    const isUserLoggedIn = useSelector((state) => state.auth.isloggedIn)
-    const user = useSelector((state) => state.auth.user)
-    const userProfileStatus = useSelector((state) => state.profile.profileExist)
+    const isUserLoggedIn = useSelector((state) => state.auth.isloggedIn);
+    const user = useSelector((state) => state.auth.user);
+    const userProfileStatus = useSelector((state) => state.profile.profileExist);
 
     return (
         <>
@@ -155,6 +155,6 @@ export default function Navbar() {
             </div>
         </>
 
-    )
+    );
 }
 
