@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setProfileStatus, addProfile } from "../redux/reducer/profile";
 import {setjobExist, addJobs} from "../redux/reducer/jobs";
+import { useNavigate } from 'react-router-dom';
 
 
 import Background from "../images/job-poster.jpg";
@@ -92,6 +93,7 @@ export default function Home() {
     if (Object.keys(user).length === 0) {
       axios.get(`${process.env.REACT_APP_SERVER_URL}/user/jobs`).then(
         (res) => {
+          setJobs(res.data);
           dispatch(setjobExist());
           dispatch(addJobs(res?.data));
           setloadingJobs(false);
@@ -118,6 +120,20 @@ export default function Home() {
       [name]: value
     });
   };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const { search_term } = jobSearch;
+      axios.get(`${process.env.REACT_APP_SERVER_URL}/user/jobs?search_term=${search_term}`).then(
+        (res) => {
+          setJobs(res.data);
+          dispatch(setjobExist());
+          dispatch(addJobs(res?.data));
+        }
+      ).catch((err) => {
+        console.log(err);
+      })
+    }
   
   if (loading) {
     return <div class="spinner-border" role="status">
@@ -135,7 +151,7 @@ export default function Home() {
       <div className="container-fluid" style={{ backgroundImage: 'url(' + Background + ')', backgroundSize: 'auto' }}>
         <div className='row'>
           <div className="col-6 d-flex justify-content-around ">
-            <form className='mt-2'>
+            <form onSubmit={handleSubmit} className='mt-2'>
               <input className='mx-1' type="text" name="search_term"
                 value={jobSearch.search_term} onChange={handleSearch}
                 placeholder='Search Job by job title.' />
