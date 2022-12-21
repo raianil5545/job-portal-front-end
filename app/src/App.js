@@ -1,6 +1,5 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-
+import { useEffect, useState } from "react";
 
 import './App.css';
 import Navbar from './component/Navbar';
@@ -29,6 +28,8 @@ import ShowJobs from "./page/ShowJobs";
 function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true)
+
 
   useEffect(()=>{
     if (localStorage.getItem("accessToken")){
@@ -39,22 +40,29 @@ function App() {
       }).then(res => {
         dispatch(userLogIn());
         dispatch(setUser(res.data));
+        setLoading(false)
       })
       .catch(err => {
         dispatch(userLogout());
       });
     }
     else {
+      setLoading(false)
       navigate("/");
     }
   }, []);
+  if (loading) {
+    return <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  }
 
   return (
     <>
       <div className='container'>
         <Navbar />
         <Routes>
-          <Route path="" element={<Home />} />
+          <Route path="" element={<Home />}/>
           <Route path="/jobseeker/signup" element={<Signup usertype="applicant" />} />
           <Route path="/employer/signup" element={<Signup usertype="employer" />} />
           <Route path="/contact" element={<ContactUs />} />

@@ -17,7 +17,7 @@ export default function ShowJob() {
 
   return (
     <div className='container-fluid mb-3'>
-      <p> Job name: {job.name} </p>
+      <p> Job name: {job.job_name} </p>
       <img className="d-block w-100" src={"http://localhost:8000/" + logo} alt="" />
       <p>Job category: {job.job_category}</p>
       <p>Job Level: {job.job_level}</p>

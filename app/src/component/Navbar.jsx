@@ -9,6 +9,7 @@ export default function Navbar() {
     const user = useSelector((state) => state.auth.user);
     const userProfileStatus = useSelector((state) => state.profile.profileExist);
 
+
     return (
         <>
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -150,7 +151,7 @@ export default function Navbar() {
             </nav>
             <div>
                 <div className="container-fluid d-flex justify-content-left">
-                    <Link to="/"><img src={require("../images/easy-jobs.png")} width="400" height="100" /></Link>
+                    <Link reloadDocument to="/"><img src={require("../images/easy-jobs.png")} width="400" height="100" /></Link>
                 </div>
             </div>
         </>

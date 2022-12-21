@@ -49,7 +49,7 @@ const LoginForm = ({ onSubmit , error}) => {
             setLoginData(
                 {
                     ...loginData,
-                    [name]: !loginData.rememberUser
+                    ["rememberUser"]: !loginData.rememberUser
                 }
             );
         }

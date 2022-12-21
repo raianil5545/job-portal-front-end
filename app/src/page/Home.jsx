@@ -3,13 +3,11 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setProfileStatus, addProfile } from "../redux/reducer/profile";
 import {setjobExist, addJobs} from "../redux/reducer/jobs";
-import { useNavigate } from 'react-router-dom';
 
 
 import Background from "../images/job-poster.jpg";
 import ShowJobs from './ShowJobs';
 import jobContext from '../Context/jobcontext';
-
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -54,6 +52,7 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    console.log("here")
     if (user.role === "employer") {
       axios.get(`${process.env.REACT_APP_SERVER_URL}/employer/jobs`, {
         headers: {
@@ -70,6 +69,7 @@ export default function Home() {
       });
     }
     else if (user.role === "applicant") {
+      console.log("here")
       axios.get(`${process.env.REACT_APP_SERVER_URL}/applicant/jobs`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken") ? localStorage.getItem("accessToken") : accessToken}`
@@ -85,14 +85,9 @@ export default function Home() {
       })
     }
     else {
-      setloadingJobs(false);
-    }
-  }, [user.role]);
-
-  useEffect(() => {
-    if (Object.keys(user).length === 0) {
       axios.get(`${process.env.REACT_APP_SERVER_URL}/user/jobs`).then(
         (res) => {
+          console.log(res)
           setJobs(res.data);
           dispatch(setjobExist());
           dispatch(addJobs(res?.data));
@@ -101,12 +96,9 @@ export default function Home() {
       ).catch((err) => {
         console.log(err);
       })
-    }
-    else {
       setloadingJobs(false);
     }
-  }
-  , []);
+  }, [user.role]);
 
   const [jobSearch, setJobSearch] = useState(
     {

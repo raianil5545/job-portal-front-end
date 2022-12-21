@@ -18,8 +18,6 @@ function ShowJobs(props) {
     const profile_logo = useSelector((state) => (state.profile.profile.logo));
     const logo = (props?.logo?.length > 0) ? props.logo : profile_logo;
 
-    console.log(jobs)
-
     const [currentItems, setCurrentItems] = useState(null);
     const [pageCount, setPageCount] = useState(0);
     const [itemOffset, setItemOffset] = useState(0);
