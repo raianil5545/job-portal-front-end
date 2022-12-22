@@ -5,12 +5,12 @@ import { useState, useEffect } from 'react';
 import ReactPaginate from 'react-paginate';
 
 
-import "../style.css";
 import JobPage from './JobPage';
-import {ContextProfile} from '../Context/Context';
+import { ContextProfile } from '../Context/Context';
+import '../css/pagination.css'
 
 function ShowJobs() {
-    const {profile} = React.useContext(ContextProfile);
+    const { profile } = React.useContext(ContextProfile);
     const jobs = useSelector((state => (state.jobs.jobs)));
     const logo = profile?.profile?.logo;
 
@@ -33,17 +33,29 @@ function ShowJobs() {
     return (
         <>
             <JobPage currentItems={currentItems} logo={logo} />
-            <div className='app-page'>
-                <ReactPaginate className='justify-content-center'
-                    nextLabel={"Next →"}
+            <div className='container' style={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                paddingTop: 20,
+                paddingBottom: 20,
+                boxSizing: 'border-box',
+            }}>
+                <ReactPaginate 
+                    activeClassName={'item active '}
+                    breakClassName={'item break-me '}
+                    breakLabel={'...'}
+                    containerClassName={'pagination'}
+                    disabledClassName={'disabled-page'}
+                    marginPagesDisplayed={2}
+                    nextClassName={"item next "}
+                    nextLabel = {"next"}
                     pageCount={pageCount}
                     onPageChange={handlePageClick}
-                    containerClassName={"pagination"}
-                    previousLinkClassName={"pagination__link"}
-                    nextLinkClassName={"pagination__link"}
-                    disabledClassName={"pagination__link--disabled"}
-                    activeClassName={"pagination__link--active"}
-                    renderOnZeroPageCount={null}
+                    pageClassName={'item pagination-page '}
+                    pageRangeDisplayed={2}
+                    previousClassName={"item previous"}
+                    previousLabel={"prev"}
                 />
             </div>
         </>

@@ -24,7 +24,7 @@ export default function Navbar() {
                                     <NavLink className="p-3" to="/search">SEARCH JOB</NavLink>
                                 </li>
                                 <li className="nav-item">
-                                    <NavLink className="p-3">BLOG</NavLink>
+                                    <NavLink className="p-3" to="#">BLOG</NavLink>
                                 </li>
                                 <li className="nav-item">
                                     <NavLink to="/contact" target="_blank" className="p-3">CONTACT</NavLink>
