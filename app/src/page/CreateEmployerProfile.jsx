@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { ContextUser } from '../Context/Context';
 
 export default function CreateEmployerProfile() {
     const [employerProfileData, setEmployerProfile] = useState({
@@ -18,7 +18,8 @@ export default function CreateEmployerProfile() {
     });
 
     const navigate = useNavigate();
-    const reduxAccessToken = useSelector((state) => (state.auth.token));
+    const { userData } = React.useContext(ContextUser);
+    const reduxAccessToken = userData.token;
 
     const handleChange = (event) => {
         const { name, value } = event.target

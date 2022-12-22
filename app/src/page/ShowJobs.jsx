@@ -1,6 +1,4 @@
 import React from 'react';
-import { useContext } from 'react';
-import jobContext from '../Context/jobcontext';
 import { memo } from 'react';
 import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
@@ -9,14 +7,12 @@ import ReactPaginate from 'react-paginate';
 
 import "../style.css";
 import JobPage from './JobPage';
+import {ContextProfile} from '../Context/Context';
 
-
-function ShowJobs(props) {
-    const jobsCtx = useContext(jobContext);
-    const jobsRdx = useSelector((state => (state.jobs.jobs)));
-    const jobs = (jobsCtx.length > 0) ? jobsCtx : jobsRdx;
-    const profile_logo = useSelector((state) => (state.profile.profile.logo));
-    const logo = (props?.logo?.length > 0) ? props.logo : profile_logo;
+function ShowJobs() {
+    const {profile} = React.useContext(ContextProfile);
+    const jobs = useSelector((state => (state.jobs.jobs)));
+    const logo = profile?.profile?.logo;
 
     const [currentItems, setCurrentItems] = useState(null);
     const [pageCount, setPageCount] = useState(0);

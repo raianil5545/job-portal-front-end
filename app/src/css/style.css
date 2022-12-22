@@ -1,0 +1,56 @@
+.jobs {
+    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    margin-bottom: 10px;
+    margin-top: 5px;
+    height: 30vh;
+    width: 30vw
+}
+
+.jobs-logo {
+    width: 10vw;
+    height: 20vh;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 2vw;
+}
+
+.job-header {
+    box-shadow: -6px -6px 5px 0px rgba(115,106,106,0.54);
+     -webkit-box-shadow: -6px -6px 5px 0px rgba(115,106,106,0.54);
+    -moz-box-shadow: -6px -6px 5px 0px rgba(115,106,106,0.54);
+    margin-top: 2vh;
+    margin-bottom: 5vh;
+    height: 15vh;
+    width: 100 vw;
+}
+.job-body {
+    box-shadow: -6px -6px 5px 0px rgba(115,106,106,0.54);
+     -webkit-box-shadow: -6px -6px 5px 0px rgba(115,106,106,0.54);
+    -moz-box-shadow: -6px -6px 5px 0px rgba(115,106,106,0.54);
+    margin-top: 5vh;
+    margin-bottom: 8vh;
+}
+
+.job-header h4 {
+    font-size: 20px; 
+    font-family: "Times New Roman , Times, serif";
+    margin-left: 2vw;
+}
+.job-header h6 {
+    font-size: 16px; 
+    font-family: "Times New Roman , Times, serif";
+    margin-left: 2vw;
+}
+#job-item-topic {
+    font-size: 15px; 
+    font-family: "Times New Roman , Times, serif";
+    margin-left: 2vw;
+}
+
+#job-item-content {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 15px;
+    font-style: oblique;
+}

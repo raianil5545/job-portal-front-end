@@ -1,23 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
-import { setProfileStatus, addProfile } from "../redux/reducer/profile";
-import {setjobExist, addJobs} from "../redux/reducer/jobs";
+import { useDispatch } from 'react-redux';
+import { setjobExist, addJobs } from "../redux/reducer/jobs";
 
 
 import Background from "../images/job-poster.jpg";
 import ShowJobs from './ShowJobs';
-import jobContext from '../Context/jobcontext';
+import { ContextUser, ContextProfile } from '../Context/Context';
+
 
 export default function Home() {
   const dispatch = useDispatch();
   let [loading, setLoading] = useState(true);
   let [loadingJobs, setloadingJobs] = useState(true);
-  let [jobs, setJobs] = useState([]);
-  const accessToken = useSelector((state) => (state.auth.token));
-  const user = useSelector((state) => (state.auth.user));
-  const profile = useSelector((state) => (state.profile.profile));
+  const { addProfile} = React.useContext(ContextProfile);
 
+  const {userData} = React.useContext(ContextUser)
+  const accessToken = userData.token;
 
   useEffect(() => {
     if (localStorage.getItem("accessToken")) {
@@ -27,8 +26,10 @@ export default function Home() {
         }
       }).then(res => {
         if (res.data.length > 0) {
-          dispatch(setProfileStatus());
-          dispatch(addProfile(res.data[0]));
+          addProfile({
+            profileExist: true,
+            profile: res.data[0]
+          })
         }
         setLoading(false);
       });
@@ -40,8 +41,10 @@ export default function Home() {
         }
       }).then(res => {
         if (res.data.length > 0) {
-          dispatch(setProfileStatus());
-          dispatch(addProfile(res.data[0]));
+          addProfile({
+            profileExist: true,
+            profile: res.data[0]
+          })
         }
         setLoading(false);
       });
@@ -52,15 +55,13 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    console.log("here")
-    if (user.role === "employer") {
+    if (userData?.user?.role === "employer") {
       axios.get(`${process.env.REACT_APP_SERVER_URL}/employer/jobs`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken") ? localStorage.getItem("accessToken") : accessToken}`
         }
       }).then(res => {
         if (res?.data?.length > 0) {
-          setJobs(res.data);
           dispatch(setjobExist());
           dispatch(addJobs({})); // clearing prev jobs
           dispatch(addJobs(res.data));
@@ -68,15 +69,13 @@ export default function Home() {
         setloadingJobs(false);
       });
     }
-    else if (user.role === "applicant") {
-      console.log("here")
+    else if (userData?.user?.role === "applicant") {
       axios.get(`${process.env.REACT_APP_SERVER_URL}/applicant/jobs`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken") ? localStorage.getItem("accessToken") : accessToken}`
         }
       }).then(res => {
         if (res?.data?.length > 0) {
-          setJobs(res.data);
           dispatch(setjobExist());
           dispatch(addJobs({})); // clearing prev jobs
           dispatch(addJobs(res.data));
@@ -85,10 +84,8 @@ export default function Home() {
       })
     }
     else {
-      axios.get(`${process.env.REACT_APP_SERVER_URL}/user/jobs`).then(
+      axios.get(`${process.env.REACT_APP_SERVER_URL}/jobs`).then(
         (res) => {
-          console.log(res)
-          setJobs(res.data);
           dispatch(setjobExist());
           dispatch(addJobs(res?.data));
           setloadingJobs(false);
@@ -98,7 +95,7 @@ export default function Home() {
       })
       setloadingJobs(false);
     }
-  }, [user.role]);
+  }, [userData?.user]);
 
   const [jobSearch, setJobSearch] = useState(
     {
@@ -116,17 +113,16 @@ export default function Home() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const { search_term } = jobSearch;
-      axios.get(`${process.env.REACT_APP_SERVER_URL}/user/jobs?search_term=${search_term}`).then(
-        (res) => {
-          setJobs(res.data);
-          dispatch(setjobExist());
-          dispatch(addJobs(res?.data));
-        }
-      ).catch((err) => {
-        console.log(err);
-      })
-    }
-  
+    axios.get(`${process.env.REACT_APP_SERVER_URL}/jobs?search_term=${search_term}`).then(
+      (res) => {
+        dispatch(setjobExist());
+        dispatch(addJobs(res?.data));
+      }
+    ).catch((err) => {
+      console.log(err);
+    })
+  }
+
   if (loading) {
     return <div class="spinner-border" role="status">
       <span class="visually-hidden">Loading...</span>
@@ -173,24 +169,16 @@ export default function Home() {
       </div>
       <div className='container-fluid mt-3'>
         {
-          user.role === "employer" &&
-          jobs.length > 0 &&
-          <jobContext.Provider value={jobs}>
-            <ShowJobs logo={profile.logo} />
-          </jobContext.Provider>
+          userData?.user?.role === "employer" &&
+            <ShowJobs />
         }
         {
-          Object.keys(user).length === 0 &&
-         <jobContext.Provider value={jobs}>
-            <ShowJobs logo={profile.logo} />
-          </jobContext.Provider>
+          Object.keys(userData.user).length === 0 &&
+            <ShowJobs />
         }
         {
-          user.role === "applicant" &&
-          jobs.length > 0 &&
-          <jobContext.Provider value={jobs}>
-            <ShowJobs logo={profile.logo} />
-          </jobContext.Provider>
+          userData?.user?.role === "applicant" &&
+            <ShowJobs />
         }
       </div>
     </>

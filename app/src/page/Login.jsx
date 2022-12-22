@@ -5,10 +5,11 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 
-import { userLogIn, setUser, setToken } from "../redux/reducer/auth";
+// import { userLogIn, setUser, setToken } from "../redux/reducer/auth";
 import { validEmail, validPassword } from "../utils/validator";
 import ErrorText from '../component/ErrorText';
 import "bootstrap/dist/css/bootstrap.css";
+import {ContextUser} from '../Context/Context';
 
 
 const LoginForm = ({ onSubmit , error}) => {
@@ -20,7 +21,7 @@ const LoginForm = ({ onSubmit , error}) => {
         }
     );
 
-    let [logInErrors, setLoginErrors] = useState({})
+    let [logInErrors, setLoginErrors] = useState({});
 
     function handleChange(event) {
         const { name, value } = event.target;
@@ -103,6 +104,8 @@ const LoginForm = ({ onSubmit , error}) => {
 };
 
 export default function Login() {
+    const {userData, setUserdata} = React.useContext(ContextUser)
+
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
@@ -124,13 +127,15 @@ export default function Login() {
             email,
             password,
         }).then((response) => {
-            navigate("/")
+            navigate("/");
             if (rememberUser === "true"){
                 localStorage.setItem("accessToken", response.data.accessToken);
             }
-            dispatch(setUser(response.data.user));
-            dispatch(setToken(response.data.accessToken));
-            dispatch(userLogIn());
+            setUserdata({
+                isloggedIn: true,
+                token: response.data.accessToken,
+                user: response.data.user
+            })
             handleClose();
         }).catch((err) => {
             setApiCallErr();

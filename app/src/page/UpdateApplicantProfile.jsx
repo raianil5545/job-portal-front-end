@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { ContextUser } from '../Context/Context';
 
-export default function UpdateApplicantProfile() {
-    const profile = useSelector((state) => state.profile.profile);
+
+export default function UpdateApplicantProfile({profile}) {
+    const {userData} = React.useContext(ContextUser)
+    const reduxAccessToken = userData?.token;
     const navigate = useNavigate();
 
     let [updatedData, setUpdatedData] = useState({
@@ -69,7 +71,7 @@ export default function UpdateApplicantProfile() {
 
         axios.put(`${process.env.REACT_APP_SERVER_URL}/applicant/profile/update`, formData, {
             headers: {
-                Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                Authorization: `Bearer ${localStorage.getItem("accessToken") ? localStorage.getItem("accessToken") : reduxAccessToken}`
             }
         }).then((res => {
             navigate("/");

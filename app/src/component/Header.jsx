@@ -1,18 +1,21 @@
 import React from 'react';
 import { NavLink, Link } from "react-router-dom";
-import { useSelector } from 'react-redux';
+import { ContextUser, ContextProfile } from '../Context/Context';
+import '../css/header.css'
 
 import Login from "../page/Login";
 
 export default function Navbar() {
-    const isUserLoggedIn = useSelector((state) => state.auth.isloggedIn);
-    const user = useSelector((state) => state.auth.user);
-    const userProfileStatus = useSelector((state) => state.profile.profileExist);
+    const { userData, setUserData } = React.useContext(ContextUser)
+    const isUserLoggedIn = userData.isloggedIn;
+    const user = userData.user;
+    const {profile} = React.useContext(ContextProfile)
+    const userProfileStatus = profile.profileExist
 
 
     return (
         <>
-            <nav className="navbar navbar-expand-lg navbar-light bg-light">
+            <nav className="navbar navbar-expand-lg navbar-light nav-bar">
                 <div className="container-fluid">
                     <div className="collapse navbar-collapse" id="navbarScroll">
                         <div className='w-50'>
@@ -69,14 +72,14 @@ export default function Navbar() {
                                             {
                                                 !userProfileStatus &&
                                                 <li className="nav-item">
-                                                    <NavLink className="p-3" to="/applicant/profile/create">Create</NavLink>
+                                                    <NavLink className="p-3" to="/jobseeker/profile/create">Create</NavLink>
                                                 </li>
                                             }
                                         <li className="nav-item">
-                                            <NavLink className="p-3" to="/applicant/profile">View</NavLink>
+                                            <NavLink className="p-3" to="/jobseeker/profile">View</NavLink>
                                         </li>
                                         <li className="nav-item">
-                                            <NavLink className="p-3" to="/applicant/profile/update">Update</NavLink>
+                                            <NavLink className="p-3" to="/jobseeker/profile/update">Update</NavLink>
                                         </li>
                                         <li className="nav-item">
                                             <NavLink className="p-3" to="">Delete</NavLink>
@@ -127,7 +130,7 @@ export default function Navbar() {
                                                     <NavLink className="p-3" to="/employer/job/post">Post Job</NavLink>
                                                 </li>
                                         <li className="nav-item">
-                                            <NavLink className="p-3" to="/employer/jobs">View Jobs</NavLink>
+                                            <NavLink className="p-3" to="/employer/job">View Jobs</NavLink>
                                         </li>
                                         <li className="nav-item">
                                             <NavLink className="p-3" to="">Delete Jobs</NavLink>
@@ -142,16 +145,16 @@ export default function Navbar() {
                         }
                         <div className='w-25'>
                             <form className="d-flex">
-                                <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                                <button className="btn btn-outline-success" type="submit">Search</button>
+                                <input className="form-control me-2 form-search" type="search" placeholder="Search" aria-label="Search" />
+                                <button className="btn btn-outline-success form-search" type="submit">Search</button>
                             </form>
                         </div>
                     </div>
                 </div>
             </nav>
             <div>
-                <div className="container-fluid d-flex justify-content-left">
-                    <Link reloadDocument to="/"><img src={require("../images/easy-jobs.png")} width="400" height="100" /></Link>
+                <div className="container-fluid logo-div d-flex justify-content-left">
+                    <Link reloadDocument to="/"><img className='logo-img ' src={require("../images/easy-jobs.png")} width="400" height="100" /></Link>
                 </div>
             </div>
         </>

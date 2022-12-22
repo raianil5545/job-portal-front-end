@@ -2,13 +2,13 @@ import React from 'react';
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import ErrorText from '../component/ErrorText';
-
+import { ContextUser } from '../Context/Context';
 
 export default function CreateApplicantProfile() {
     const navigate = useNavigate()
-    const reduxAccessToken = useSelector((state) => (state.auth.token))
+    const { userData } = React.useContext(ContextUser);
+    const reduxAccessToken = userData.token;
     let [profileData, setProfileData] = useState({
         level: "",
         skills: [],
@@ -78,7 +78,6 @@ export default function CreateApplicantProfile() {
             job_location } = profileData;
 
         form_data.append("level", level);
-        form_data.append("skills", skills.split(","));
         form_data.append("experience", experience);
         form_data.append("date_of_birth", date_of_birth);
         form_data.append("gender", gender);
@@ -108,6 +107,9 @@ export default function CreateApplicantProfile() {
                 form_data.append("resume", el);
             }
         );
+        for (var pair of form_data.entries()) {
+            console.log(pair[0]+ ', ' + pair[1]); 
+        }
 
         axios({
             method: "post",

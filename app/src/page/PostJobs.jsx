@@ -1,9 +1,8 @@
 import React from 'react';
 import { useState } from 'react';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom'; 
+import { ContextUser } from '../Context/Context';
 
 import {
     jobLevels, educationLevels,
@@ -12,7 +11,8 @@ import {
 } from "../constant/job";
 
 export default function PostJobs() {
-    const reduxAccessToken = useSelector((state) => (state.auth.token));
+    const {userData} = React.useContext(ContextUser);
+    const token = userData.token;
     const navigate = useNavigate();
 
     let [jobData, setJobData] = useState({
@@ -67,7 +67,7 @@ export default function PostJobs() {
             url: `${process.env.REACT_APP_SERVER_URL}/employer/job/post`,
             data: data,
             headers: {
-                Authorization: `Bearer ${localStorage.getItem("accessToken") ? localStorage.getItem("accessToken") : reduxAccessToken}`
+                Authorization: `Bearer ${localStorage.getItem("accessToken") ? localStorage.getItem("accessToken") : token}`
             }
         }).then((res) => {
             navigate("/");

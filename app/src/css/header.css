@@ -1,0 +1,34 @@
+.link {
+    font-size: 30px;
+    height: 50px;
+    background-color: rgb(215, 223, 228);
+  }
+
+a {
+    text-decoration: none;
+    color: brown;
+  }
+  
+a:hover {
+    color: chartreuse;
+  }
+
+.nav-bar {
+    background-color: rgb(221, 234, 238);
+    height: 8vh;
+}
+
+.logo-div {
+    background-color: whitesmoke;
+    height: 10vh;
+}
+
+.logo-img {
+    height: 8vh;
+    width: 15vw
+}
+
+.form-search {
+    height: 6vh;
+}
+

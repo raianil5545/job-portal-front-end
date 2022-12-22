@@ -1,17 +1,19 @@
 import React from 'react';
 import {useLocation} from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { jobLevels, educationLevels, empoymentTypes, experinceLevel, jobCategories } from "../constant/job";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { ContextUser } from '../Context/Context';
 
 
 export default function UpdateJob(props) {
   const { id } = useParams();
   const location = useLocation();
-  const reduxAccessToken = useSelector((state) => (state.auth.token));
+  const {userData} = React.useContext(ContextUser);
+  const token = userData.token;
+
   const job = location.state.job;
   const navigate = useNavigate();
 
@@ -63,7 +65,7 @@ const handleSubmit = (event) => {
     data["job_location"] = JSON.stringify(data.job_location);
     axios.put(`${process.env.REACT_APP_SERVER_URL}/employer/job/update/${id}`, data,
         {headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken") ? localStorage.getItem("accessToken") : reduxAccessToken}`
+            Authorization: `Bearer ${localStorage.getItem("accessToken") ? localStorage.getItem("accessToken") : token}`
         }}).then((res) => {
         navigate("/");
     }).catch((err) => {

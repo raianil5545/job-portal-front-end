@@ -1,14 +1,14 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { ContextUser } from '../Context/Context';
 
 
-export default function UpdateEmployerProfile() {
-  const profile = useSelector((state) => (state.profile.profile));
+export default function UpdateEmployerProfile({profile}) {
   const navigate = useNavigate();
-  const reduxAccessToken = useSelector((state) => (state.auth.token));
+  const {userData} = React.useContext(ContextUser)
+  const reduxAccessToken = userData?.token;
 
   let [updateProfileData, setProfileData] = useState({
     headquarter_address: profile.headquarter_address,
