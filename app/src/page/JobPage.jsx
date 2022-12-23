@@ -20,7 +20,7 @@ export default function JobPage({ currentItems, logo }) {
                         const time_remaining = applicantion_dealine - job_created
                         return (<div className='col-md-4 jobs' onClick={() => handleOnClick(index)} style={{ "cursor": "pointer" }}>
                             <Card style={{ width: '18rem', height:'15rem'}}>
-                                <Card.Img className='jobs-logo' variant="top" src={"http://localhost:8000/" + (logo ? logo : job.logo)} />
+                                <Card.Img className='jobs-logo' variant="top" src={"http://localhost:8000/" + (job.logo ? job.logo : logo)} />
                                 <Card.Body>
                                     <Card.Title style={{fontSize: "18px"}}>{job.job_name}</Card.Title>
                                     <Card.Text>
