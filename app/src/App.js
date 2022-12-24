@@ -20,6 +20,7 @@ import ShowJobs from "./page/ShowJobs";
 import SharedLayout from "./component/SharedLayout";
 import ShowProfile from "./component/ShowProfile";
 import CreateProfile from "./component/CreateProfile";
+import DeleteJob from "./component/DeleteJob";
 
 
 function App() {
@@ -91,6 +92,7 @@ function App() {
                 <Route path="post" element={<PostJobs />} />
                 <Route path="show/:id" element={<ShowJob />} />
                 <Route path="update/:id" element={<UpdateJob />} />
+                <Route path="delete/:id" element={<DeleteJob />} />
               </Route>
             </Route>
             <Route path="job/show/:id" element={<ShowJob />} />

@@ -11,13 +11,16 @@ export default function ShowJob() {
   const logo = location.state.logo;
   const job = location.state.job;
   const navigate = useNavigate();
-  const job_created = new Date(job.createdAt)
-  const applicantion_dealine = new Date(job.application_dead_line)
-  const time_reamining = applicantion_dealine - job_created
 
   const updateJobs = (job) => {
     navigate(`/employer/job/update/${job._id}`, { state: { job: job } });
   };
+
+  const deleteJob = (job) => {
+    navigate(`/employer/job/delete/${job._id}`)
+  };
+  console.log(userData.user.id )
+  console.log( job.employer_id)
 
   return (
     <div className='container-fluid'>
@@ -67,6 +70,11 @@ export default function ShowJob() {
       type="submit" style={{ width: '50%' }} 
       disabled={userData.user.id === job.employer_id ? false : true}
       className="btn btn-primary">{userData.user.id === job.employer_id ? "Update Jobs" : "Forbidden Update"}</button>
+
+      <button onClick={() => deleteJob(job)} 
+      type="submit" style={{ width: '50%' }} 
+      disabled={userData.user.id === job.employer_id ? false : true}
+      className="btn btn-primary">{userData.user.id === job.employer_id ? "delete Jobs" : "Forbidden Delete"}</button>
     </div>
   );
 }
