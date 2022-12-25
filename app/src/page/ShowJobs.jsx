@@ -31,7 +31,7 @@ function ShowJobs() {
     };
 
     return (
-        <>
+        <div className='container-fluid'>
             <JobPage currentItems={currentItems} logo={logo} />
             <div className='container' style={{
                 display: 'flex',
@@ -58,7 +58,7 @@ function ShowJobs() {
                     previousLabel={"prev"}
                 />
             </div>
-        </>
+        </div>
     );
 }
 

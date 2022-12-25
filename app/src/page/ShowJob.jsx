@@ -11,6 +11,9 @@ export default function ShowJob() {
   const logo = location.state.logo;
   const job = location.state.job;
   const navigate = useNavigate();
+  let dateNow =  Date.now();
+  const applicantDate = new Date(job.application_dead_line);
+  let timeRemaining = applicantDate - dateNow;
 
   const updateJobs = (job) => {
     navigate(`/employer/job/update/${job._id}`, { state: { job: job } });
@@ -81,7 +84,7 @@ export default function ShowJob() {
       {
         userData.user.role === "applicant" ? <button onClick={() => applyJob(job)}
          type="submit" style={{ width: '25%' }}
-         className="btn btn-primary">Apply</button>: ""
+         className="btn btn-primary" disabled={timeRemaining > 0 ? false: true}>Apply</button>: ""
       }
       
     </div>
