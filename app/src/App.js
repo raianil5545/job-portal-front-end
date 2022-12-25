@@ -21,6 +21,7 @@ import SharedLayout from "./component/SharedLayout";
 import ShowProfile from "./component/ShowProfile";
 import CreateProfile from "./component/CreateProfile";
 import DeleteJob from "./component/DeleteJob";
+import ApplyJob from "./component/ApplyJob";
 
 
 function App() {
@@ -71,6 +72,7 @@ function App() {
           <Route path="/" element={<SharedLayout />}>
             <Route index element={<Home />} />
             <Route path="/jobseeker">
+              <Route path="job/apply/:id" element={<ApplyJob />} />
               <Route path="signup" element={<Signup usertype="applicant" />} />
               <Route path="login" element={<Login />} />
               <Route path="profile">

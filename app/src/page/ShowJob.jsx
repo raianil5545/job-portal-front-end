@@ -19,12 +19,14 @@ export default function ShowJob() {
   const deleteJob = (job) => {
     navigate(`/employer/job/delete/${job._id}`)
   };
-  console.log(userData.user.id )
-  console.log( job.employer_id)
+  
+  const applyJob = () => {
+    navigate(`/jobseeker/job/apply/${job._id}`, {state: {job: job} })
+  }
 
   return (
     <div className='container-fluid'>
-      <img className="d-block" src={"http://localhost:8000/" + (logo?logo:job.logo)} alt="" />
+      <img className="d-block"  style = {{width: "10rem", height: "10rem"}} src={"http://localhost:8000/" + (logo?logo:job.logo)} alt="" />
       <div className='job-header'>
         <h4><strong>{job.job_name}</strong></h4>
         <h6><strong>Basic Job Information</strong></h6>
@@ -66,15 +68,22 @@ export default function ShowJob() {
           }
         </p>
       </div>
-      <button onClick={() => updateJobs(job)} 
-      type="submit" style={{ width: '50%' }} 
-      disabled={userData.user.id === job.employer_id ? false : true}
-      className="btn btn-primary">{userData.user.id === job.employer_id ? "Update Jobs" : "Forbidden Update"}</button>
-
-      <button onClick={() => deleteJob(job)} 
-      type="submit" style={{ width: '50%' }} 
-      disabled={userData.user.id === job.employer_id ? false : true}
-      className="btn btn-primary">{userData.user.id === job.employer_id ? "delete Jobs" : "Forbidden Delete"}</button>
+      {
+        userData.user.id === job.employer_id ? <button onClick={() => updateJobs(job)}
+         type="submit" style={{ width: '25%' }}
+         className="btn btn-primary mx-3 my-3">Update Job</button>: ""
+      }
+      {
+        userData.user.id === job.employer_id ? <button onClick={() => deleteJob(job)}
+         type="submit" style={{ width: '25%' }}
+         className="btn btn-primary">Delete Job</button>: ""
+      }
+      {
+        userData.user.role === "applicant" ? <button onClick={() => applyJob(job)}
+         type="submit" style={{ width: '25%' }}
+         className="btn btn-primary">Apply</button>: ""
+      }
+      
     </div>
   );
 }
