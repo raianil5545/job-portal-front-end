@@ -27,10 +27,15 @@ export default function JobPage({ currentItems, logo }) {
             for (let i = 0; i < applicant_deadline_arr.length; i++) {
                 let applicant_deadline = new Date(applicant_deadline_arr[i])
                 let time_ream = applicant_deadline - time_now
-                let days = Math.floor(time_ream / 86400000)
-                let hours = Math.floor((time_ream % 86400000) / 3600000)
-                let mins = Math.round(((time_ream % 86400000) % 3600000) / 60000)
-                time_remaining.push(`${days} days:${hours} hours:${mins} mins`)
+                if(time_ream<0){
+                    time_remaining.push('expired')
+                }
+                else{
+                    let days = Math.floor(time_ream / 86400000)
+                    let hours = Math.floor((time_ream % 86400000) / 3600000)
+                    let mins = Math.round(((time_ream % 86400000) % 3600000) / 60000)
+                    time_remaining.push(`${days} days:${hours} hours:${mins} mins`)
+                }
             }
             setTimeRem(time_remaining)
         }, 1000);
@@ -52,8 +57,8 @@ export default function JobPage({ currentItems, logo }) {
                                         <Card.Text>
                                             {
                                                 timeRem[index]?.length > 0 &&
-                                                <span id="job-item-content" style={timeRem[index]?.length > 0 ? { color: 'green' } :
-                                                { color: 'red' }}>{timeRem[index]?.length > 0 ? `Time Left: ${timeRem[index]}` : "Job Expired"}</span>
+                                                <span id="job-item-content" style={timeRem[index] == 'expired' ? { color: 'red' } :
+                                                { color: 'green' }}>{timeRem[index] !== 'expired' ? `Time Left: ${timeRem[index]}` : "Job Expired"}</span>
                                             }
                                         </Card.Text>
                                     </Card.Body>
