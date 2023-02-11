@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import ErrorText from '../component/ErrorText';
+import '../css/style.css'
 
 
 export default function Signup({ usertype }) {
@@ -11,7 +12,7 @@ export default function Signup({ usertype }) {
     const passwordRef = useRef()
     const  mobileNumberRef = useRef()
 
-    let [errAPIcalData, seterrAPICall] = useState(
+    const [errAPIcalData, seterrAPICall] = useState(
         {}
     );
 
@@ -48,9 +49,10 @@ export default function Signup({ usertype }) {
     }
     return (
         <>
+        <div className='container-fluid m-3 p-3'>
             <form onSubmit={handleSubmit}>
                 <div className="mb-3">
-                    <input type="text" className="form-control"
+                    <input type="text" className="form-control signup-input"
                         name="name" id={`name-${usertype}`}
                         ref={ nameRef }
                         placeholder="Full Name" required />
@@ -60,7 +62,7 @@ export default function Signup({ usertype }) {
                     data = { nameRef }/>
                 </div>
                 <div className="mb-3">
-                    <input type="email" className="form-control"
+                    <input type="email" className="form-control signup-input"
                         name="email" id={`email-${usertype}`}
                         ref={ emailRef }
                         placeholder="Email Address" required />
@@ -70,7 +72,7 @@ export default function Signup({ usertype }) {
                     field="email"
                     data = { emailRef }/>
                 <div className="mb-3">
-                    <input type="password" className="form-control"
+                    <input type="password" className="form-control signup-input"
                         name="password" id={`password-${usertype}`}
                         ref={ passwordRef }
                         placeholder="Password" required />
@@ -80,7 +82,7 @@ export default function Signup({ usertype }) {
                     field="password"
                     data = { passwordRef }/>
                 <div className="mb-3">
-                    <input type="number" className="form-control"
+                    <input type="number" className="form-control signup-input"
                         name="mobile_number" id={`mobile-number-${usertype}`}
                         ref={ mobileNumberRef}
                         placeholder="Mobile Number" required />
@@ -89,8 +91,9 @@ export default function Signup({ usertype }) {
                     errors={ errAPIcalData }
                     field="number"
                     data = { mobileNumberRef }/>
-                <button type="submit" style={{width: '100%'}} className="btn btn-primary">Submit</button>
+                <button id="signup-btn" type="submit" className="btn btn-primary">Submit</button>
             </form>
+        </div>
         </>
     );
 }

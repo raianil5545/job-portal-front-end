@@ -1,0 +1,49 @@
+.nav-bar {
+    background-color: transparent;
+    position: fixed; 
+    top: 0;
+    width: 100%;
+    z-index: 50;
+    font-size: 1.2em;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+}
+.navbar-brand {
+  width: 20%;
+}
+.main-left {
+  width: 70%;
+}
+.main-right {
+  width: 30%;
+}
+
+.navbar-brand .logo-param {
+  width: 60%;
+  float: left;
+}
+
+.link {
+  font-size: 30px;
+  height: 50px;
+  background-color: rgb(215, 223, 228);
+}
+
+li > a {
+  text-decoration: none;
+  color: burlywood !important;
+}
+
+a:hover {
+  color: chartreuse;
+}
+.drop-downbutton {
+  height: 30px;
+  z-index: 99999;
+  width: 210px;
+  padding: 15px, 15px;
+}
+.navbar.colorChange{
+  background-color: whitesmoke;
+}
+ 

@@ -142,7 +142,7 @@ export default function CreateApplicantProfile() {
         <>
             <form onSubmit={handleSubmit}>
                 <div className="mb-3">
-                    <select class="form-select col-4" name="level" aria-label="Default select example" onChange={handleChange}>
+                    <select className="form-select col-4" name="level" aria-label="Default select example" onChange={handleChange}>
                         <option selected>Select the Experience Level</option>
                         <option value="entry level">Entry Level</option>
                         <option value="mid level">Mid level</option>
@@ -155,7 +155,7 @@ export default function CreateApplicantProfile() {
                         data={profileData} />
                 </div>
                 <div className="mb-3">
-                    <label for="formFileSm" class="form-label">Skills</label>
+                    <label for="formFileSm" className="form-label">Skills</label>
                     <input type="text" className="form-control"
                         name="skills"
                         value={profileData.skills} onChange={handleChange}
@@ -166,7 +166,7 @@ export default function CreateApplicantProfile() {
                         data={profileData} />
                 </div>
                 <div className="mb-3">
-                    <label for="formFileSm" class="form-label">Years of Experience</label>
+                    <label for="formFileSm" className="form-label">Years of Experience</label>
                     <input type="text" className="form-control"
                         name="experience"
                         value={profileData.experience} onChange={handleChange}
@@ -177,7 +177,7 @@ export default function CreateApplicantProfile() {
                         data={profileData} />
                 </div>
                 <div className="mb-3">
-                    <label for="formFileSm" class="form-label">date of Birth</label>
+                    <label for="formFileSm" className="form-label">date of Birth</label>
                     <input type="date" className="form-control"
                         name="date_of_birth"
                         value={profileData.date_of_birth} onChange={handleChange}
@@ -188,7 +188,7 @@ export default function CreateApplicantProfile() {
                         data={profileData} />
                 </div>
                 <div className="mb-3">
-                    <select class="form-select" name="gender" aria-label="Default select example" onChange={handleChange}>
+                    <select className="form-select" name="gender" aria-label="Default select example" onChange={handleChange}>
                         <option selected>Select the Gender</option>
                         <option value="male" >Male</option>
                         <option value="female" >Female</option>
@@ -198,47 +198,47 @@ export default function CreateApplicantProfile() {
                         field="gender"
                         data={profileData} />
                 </div>
-                <div class="mb-3">
-                    <label for="formFileSm" class="form-label">Upload your Profile Pic Here</label>
-                    <input class="form-control form-control-sm" name="profile_pic"
+                <div className="mb-3">
+                    <label for="formFileSm" className="form-label">Upload your Profile Pic Here</label>
+                    <input className="form-control form-control-sm" name="profile_pic"
                         type="file" onChange={handleChange} />
                 </div>
-                <div class="mb-3">
-                    <label for="formFileSm" class="form-label">Upload your Resume Here</label>
-                    <input class="form-control form-control-sm" name="resume" type="file" onChange={handleChange} />
+                <div className="mb-3">
+                    <label for="formFileSm" className="form-label">Upload your Resume Here</label>
+                    <input className="form-control form-control-sm" name="resume" type="file" onChange={handleChange} />
                 </div>
                 <div className="mb-3">
-                    <label for="expected-salary" class="form-label"> Expected Salary </label>
+                    <label for="expected-salary" className="form-label"> Expected Salary </label>
                     <div className="row">
-                        <div class="col-3">
-                            <select class="form-select col-4" name="condition" aria-label="Default select example" onChange={handleChange}>
+                        <div className="col-3">
+                            <select className="form-select col-4" name="condition" aria-label="Default select example" onChange={handleChange}>
                                 <option selected>Select the Salary condition</option>
                                 <option value="equal">equal</option>
                                 <option value="greater">greater</option>
                                 <option value="lesser">lesser</option>
                             </select>
                         </div>
-                        <div class="col-9">
-                            <input type="text" class="form-control" name="amount"
+                        <div className="col-9">
+                            <input type="text" className="form-control" name="amount"
                                 value={profileData.amount} onChange={handleChange} placeholder="Amount in Rs" />
                         </div>
                     </div>
                 </div>
                 <div className="mb-3">
                     <div className="row">
-                        <div class="col-4">
-                            <label for="current-address" class="form-label"> Street Name </label>
-                            <input type="text" class="form-control" name="street" onChange={handleChange}
+                        <div className="col-4">
+                            <label for="current-address" className="form-label"> Street Name </label>
+                            <input type="text" className="form-control" name="street" onChange={handleChange}
                                 value={profileData.street} placeholder="eg. Hanuman Chowk" />
                         </div>
-                        <div class="col-4">
-                            <label for="current-address" class="form-label"> City </label>
-                            <input type="text" class="form-control" name="city" onChange={handleChange}
+                        <div className="col-4">
+                            <label for="current-address" className="form-label"> City </label>
+                            <input type="text" className="form-control" name="city" onChange={handleChange}
                                 value={profileData.city} placeholder="eg. biratnagar" />
                         </div>
-                        <div class="col-4">
-                            <label for="current-address" class="form-label"> Province </label>
-                            <select class="form-select col-4" aria-label="Default select example" name="province" onChange={handleChange}>
+                        <div className="col-4">
+                            <label for="current-address" className="form-label"> Province </label>
+                            <select className="form-select col-4" aria-label="Default select example" name="province" onChange={handleChange}>
                                 <option selected>Select the Province</option>
                                 <option value="province no 1">Province No 1</option>
                                 <option value="bagmati">Bagmati</option>
@@ -252,7 +252,7 @@ export default function CreateApplicantProfile() {
                     </div>
                 </div>
                 <div className="mb-3">
-                    <label for="current-address" class="form-label"> Prefered Job location </label>
+                    <label for="current-address" className="form-label"> Prefered Job location </label>
                     <input type="text" className="form-control"
                         name="job_location"
                         value={profileData.job_location} onChange={handleChange}

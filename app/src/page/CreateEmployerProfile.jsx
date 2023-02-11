@@ -88,37 +88,37 @@ export default function CreateEmployerProfile() {
         <>
             <form onSubmit={handleSubmit}>
                 <div className='mb-3'>
-                    <label for="formFileSm" class="form-label">Founded Year</label>
+                    <label for="formFileSm" className="form-label">Founded Year</label>
                     <input className="form-control" type="date"
                         value={employerProfileData.founded_year} name="founded_year" placeholder='MM/DD/YY'
                         onChange={handleChange} />
                 </div>
                 <div className='mb-3'>
-                    <label for="formFileSm" class="form-label">Website Url</label>
+                    <label for="formFileSm" className="form-label">Website Url</label>
                     <input className="form-control" type="text"
                         value={employerProfileData.website_url} name="website_url" placeholder='www.example.com'
                         onChange={handleChange} />
                 </div>
                 <div className='mb-3'>
-                    <label for="formFileSm" class="form-label">Company Logo</label>
+                    <label for="formFileSm" className="form-label">Company Logo</label>
                     <input className="form-control" type="file"
                      name="logo" onChange={handleChange}/>
                 </div>
                 <div className='mb-3'>
-                    <label for="formFileSm" class="form-label">Street Address</label>
+                    <label for="formFileSm" className="form-label">Street Address</label>
                     <input className="form-control" type="text"
                         value={employerProfileData.street} name="street" placeholder='street name' 
                         onChange={handleChange}/>
                 </div>
                 <div className='mb-3'>
-                    <label for="formFileSm" class="form-label">City</label>
+                    <label for="formFileSm" className="form-label">City</label>
                     <input className="form-control" type="text"
                         value={employerProfileData.city} name="city" placeholder='name of City' 
                         onChange={handleChange}/>
                 </div>
                 <div className='mb-3'>
-                    <label for="current-address" class="form-label"> Province </label>
-                            <select class="form-select col-4" aria-label="Default select example" name="province" onChange={handleChange}>
+                    <label for="current-address" className="form-label"> Province </label>
+                            <select className="form-select col-4" aria-label="Default select example" name="province" onChange={handleChange}>
                                 <option selected>Select the Province</option>
                                 <option value="province no 1">Province No 1</option>
                                 <option value="bagmati">Bagmati</option>
@@ -130,7 +130,7 @@ export default function CreateEmployerProfile() {
                             </select>
                 </div>
                 <div className='mb-3'>
-                    <label for="formFileSm" class="form-label">Location</label>
+                    <label for="formFileSm" className="form-label">Location</label>
                     <input className="form-control" type="text"
                         value={employerProfileData.locations} name="locations" placeholder='Locations of company' 
                         onChange={handleChange}/>

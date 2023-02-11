@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setjobExist, addJobs } from "../redux/reducer/jobs";
+import axios from 'axios';
 
-
-import Background from "../images/job-poster.jpg";
 import ShowJobs from './ShowJobs';
 import { ContextUser, ContextProfile } from '../Context/Context';
+import '../css/main-body.css'
 
 
 export default function Home() {
@@ -17,6 +16,7 @@ export default function Home() {
 
   const {userData} = React.useContext(ContextUser)
   const accessToken = userData.token;
+  const user = userData.user
 
   useEffect(() => {
     if (localStorage.getItem("accessToken")) {
@@ -52,11 +52,11 @@ export default function Home() {
     else {
       setLoading(false);
     }
-  }, []);
+  }, [user]);
 
   useEffect(() => {
-    if (userData?.user?.role === "employer") {
-      axios.get(`${process.env.REACT_APP_SERVER_URL}/employer/jobs`, {
+    if (userData?.user?.role === "applicant") {
+      axios.get(`${process.env.REACT_APP_SERVER_URL}/applicant/jobs`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken") ? localStorage.getItem("accessToken") : accessToken}`
         }
@@ -69,8 +69,8 @@ export default function Home() {
         setloadingJobs(false);
       });
     }
-    else if (userData?.user?.role === "applicant") {
-      axios.get(`${process.env.REACT_APP_SERVER_URL}/applicant/jobs`, {
+    else if (userData?.user?.role === "employer") {
+      axios.get(`${process.env.REACT_APP_SERVER_URL}/employer/jobs`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken") ? localStorage.getItem("accessToken") : accessToken}`
         }
@@ -97,76 +97,19 @@ export default function Home() {
     }
   }, [userData?.user]);
 
-  const [jobSearch, setJobSearch] = useState(
-    {
-      search_term: "",
-    }
-  );
-
-  function handleSearch(event) {
-    const { name, value } = event.target;
-    setJobSearch({
-      [name]: value
-    });
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const { search_term } = jobSearch;
-    axios.get(`${process.env.REACT_APP_SERVER_URL}/jobs?search_term=${search_term}`).then(
-      (res) => {
-        dispatch(setjobExist());
-        dispatch(addJobs(res?.data));
-      }
-    ).catch((err) => {
-      console.log(err);
-    })
-  }
-
   if (loading) {
-    return <div class="spinner-border" role="status">
-      <span class="visually-hidden">Loading...</span>
+    return <div className="spinner-border" role="status">
+      <span className="visually-hidden">Loading...</span>
     </div>
   }
   if (loadingJobs) {
-    return <div class="spinner-border" role="status">
-      <span class="visually-hidden">Loading...</span>
+    return <div className="spinner-border" role="status">
+      <span className="visually-hidden">Loading...</span>
     </div>
   }
 
   return (
-    <>
-      <div className="container-fluid" style={{ backgroundImage: 'url(' + Background + ')', backgroundSize: 'auto' }}>
-        <div className='row'>
-          <div className="col-6 d-flex justify-content-around ">
-            <form onSubmit={handleSubmit} className='mt-2'>
-              <input className='mx-1' type="text" name="search_term"
-                value={jobSearch.search_term} onChange={handleSearch}
-                placeholder='Search Job by job title.' />
-              <button className="btn-primary">Search Jobs</button>
-            </form>
-          </div>
-          <div className='col-3'>
-          </div>
-          <div className="col-3 d-flex justify-content-end" style={{ backgroundColor: "rgba(51,47,47,.4)" }}>
-            <div className="px-1 py-2 text-white">
-              <h5>
-                <span className="py-2">
-                  "Let's make the quest easy."
-                  <br />
-                  "Solve it collectively."
-                </span>
-                <br />
-                <br />
-                "We connect employer and employee.."
-                <br />
-                <br />
-              </h5>
-              <small>Search and apply for jobs</small>
-            </div>
-          </div>
-        </div>
-      </div>
+    <main className='main'>
       <div className='container-fluid mt-3'>
         {
           userData?.user?.role === "employer" &&
@@ -181,6 +124,6 @@ export default function Home() {
             <ShowJobs />
         }
       </div>
-    </>
+    </main>
   )
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 
 export default function ContactUs() {
+    console.log("here in contact")
     return (
         <>
             <div style={{ backgroundColor: "#002a5b" }}>
@@ -16,32 +17,32 @@ export default function ContactUs() {
                 </div>
                 <div className='col-4'>
                     <form>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1">
-                                <i class="fa fa-user" style={{ fontSize: "36px" }}></i>
+                        <div className="input-group mb-3">
+                            <span className="input-group-text" id="basic-addon1">
+                                <i className="fa fa-user" style={{ fontSize: "36px" }}></i>
                             </span>
-                            <input type="text" class="form-control" placeholder="Full Name" name="fullName" aria-describedby="basic-addon1" />
+                            <input type="text" className="form-control" placeholder="Full Name" name="fullName" aria-describedby="basic-addon1" />
                         </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon2">
-                                <i class="fa fa-envelope" style={{ fontSize: "36px" }}></i>
+                        <div className="input-group mb-3">
+                            <span className="input-group-text" id="basic-addon2">
+                                <i className="fa fa-envelope" style={{ fontSize: "36px" }}></i>
                             </span>
-                            <input type="email" class="form-control" placeholder="Email Address" name="email" aria-describedby="basic-addon2" />
+                            <input type="email" className="form-control" placeholder="Email Address" name="email" aria-describedby="basic-addon2" />
                         </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon3">
-                                <i class="fa fa-phone" style={{ fontSize: "36px" }}></i>
+                        <div className="input-group mb-3">
+                            <span className="input-group-text" id="basic-addon3">
+                                <i className="fa fa-phone" style={{ fontSize: "36px" }}></i>
                             </span>
-                            <input type="number" class="form-control" placeholder="Phone Number" name="phoneNumber" aria-describedby="basic-addon3" />
+                            <input type="number" className="form-control" placeholder="Phone Number" name="phoneNumber" aria-describedby="basic-addon3" />
                         </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon4">
-                                <i class="fa fa-envelope" style={{ fontSize: "36px" }}></i>
+                        <div className="input-group mb-3">
+                            <span className="input-group-text" id="basic-addon4">
+                                <i className="fa fa-envelope" style={{ fontSize: "36px" }}></i>
                             </span>
-                            <input type="text" class="form-control" placeholder="Subject" name="subject" aria-describedby="basic-addon4" />
+                            <input type="text" className="form-control" placeholder="Subject" name="subject" aria-describedby="basic-addon4" />
                         </div>
-                        <div class="input-group mb-3">
-                            <textarea class="form-control" placeholder="Your message here" name="message" />
+                        <div className="input-group mb-3">
+                            <textarea className="form-control" placeholder="Your message here" name="message" />
                         </div>
                         <button className="btn btn-primary" style={{ width: '100%' }} type="submit">Submit</button>
                     </form>
@@ -64,8 +65,8 @@ export default function ContactUs() {
             <br />
             <div className='container-fluid py-2' style={{ backgroundColor: "lightblue" }}>
                 <span style={{ marginRight: "10%" }}><b>Search, Apply, Get Job: Free</b></span>
-                <button className="btn-primary" style={{ marginRight: "5%" }}><span><i class="fa fa-user" style={{ fontSize: "15px" }}></i></span>  Register  </button>
-                <button className="btn-primary" style={{ marginRight: "5%" }}><span><i class="fa fa-sign-in" style={{ fontSize: "15px" }}></i></span>  Login  </button>
+                <button className="btn-primary" style={{ marginRight: "5%" }}><span><i className="fa fa-user" style={{ fontSize: "15px" }}></i></span>  Register  </button>
+                <button className="btn-primary" style={{ marginRight: "5%" }}><span><i className="fa fa-sign-in" style={{ fontSize: "15px" }}></i></span>  Login  </button>
             </div>
             <div>
                 <div className='row py-3' style={{backgroundColor: "#E0E0E0"}}>
@@ -126,21 +127,21 @@ export default function ContactUs() {
                         <h5>CONTACT US</h5>
                         <a href="#" className='mt-4'>
                             <span>
-                                <i class="fa fa-location-arrow" style={{ fontSize: "15px" }}></i>
+                                <i className="fa fa-location-arrow" style={{ fontSize: "15px" }}></i>
                                 <small>Kumari Galli 2, Kathmandu, 44600</small>
                                 </span>
                         </a>
                         <br/>
                         <a href="#" className='mt-4'>
                             <span>
-                                <i class="fa fa-phone" style={{ fontSize: "15px" }}></i>
+                                <i className="fa fa-phone" style={{ fontSize: "15px" }}></i>
                                 <small>+977 1 4106701<br/>+977 1 4106700</small>
                                 </span>
                         </a>
                         <br/>
                         <a href="#" className='mt-4'>
                             <span>
-                                <i class="fa fa-envelope" style={{ fontSize: "15px" }}></i>
+                                <i className="fa fa-envelope" style={{ fontSize: "15px" }}></i>
                                 <small>something@jobhunter.com</small>
                                 </span>
                         </a>

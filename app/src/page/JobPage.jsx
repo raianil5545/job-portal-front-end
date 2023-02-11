@@ -49,8 +49,8 @@ export default function JobPage({ currentItems, logo }) {
                     {
                         currentItems &&
                         currentItems.map((job, index) => {
-                            return (<div className='col-md-4 jobs' onClick={() => handleOnClick(index)} style={{ "cursor": "pointer" }}>
-                                <Card style={{ width: '18rem', height: '15rem' }}>
+                            return (<div className='col-md-4 jobs' key={index} onClick={() => handleOnClick(index)} style={{ "cursor": "pointer" }}>
+                                <Card style={{ width: '100%', height: '15rem', alignContent:'center' }}>
                                     <Card.Img className='jobs-logo' variant="top" src={"http://localhost:8000/" + (job.logo ? job.logo : logo)} />
                                     <Card.Body>
                                         <Card.Title style={{ fontSize: "18px" }}>{job.job_name}</Card.Title>

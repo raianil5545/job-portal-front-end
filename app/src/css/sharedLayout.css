@@ -1,0 +1,29 @@
+.background-content {
+    margin-top: 200px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    font: 100;
+    background-color: transparent;
+}
+
+.search-div {
+    padding-bottom: 10vh;
+    width: 100%;
+}
+#input-search{
+    width: 25vw;
+    height: 7vh;
+    font-size: 1.2em;
+    font-family: 'Montserrat', sans-serif;
+    border-radius: 1em;
+    text-align: center;
+}
+#search-button {
+    width: 10vw;
+    height: 7vh;
+    font-size: 1.2em;
+    padding: 5px, 5px;
+    margin-left: 1em;
+    font-family: 'Montserrat', sans-serif;
+    border-radius: 1em;
+}

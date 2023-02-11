@@ -28,7 +28,7 @@ export default function ShowJob() {
   }
 
   return (
-    <div className='container-fluid'>
+    <div className='container-fluid mb-3'>
       <img className="d-block"  style = {{width: "10rem", height: "10rem"}} src={"http://localhost:8000/" + (logo?logo:job.logo)} alt="" />
       <div className='job-header'>
         <h4><strong>{job.job_name}</strong></h4>
@@ -36,15 +36,15 @@ export default function ShowJob() {
       </div>
       <div className='job-body'>
         <p><span id="job-item-topic">Job category:</span> <span id="job-item-content">{job.job_category}</span></p>
-        <p><span id="job-item-topic">Job Level: </span><span id="job-item-content">{job.job_level}</span></p>
+        <p><span id="job-item-topic">Job Level: </span> <span id="job-item-content">{job.job_level}</span></p>
         <p><span id="job-item-topic">No. of Vacancy/s: </span>[<span id="job-item-content">{job.no_of_vacancy}</span>]</p>
-        <p><span id="job-item-topic">Employment Type:</span><span id="job-item-content">{job.employment_type}</span></p>
-        <p><span id="job-item-topic">Job Location:</span><span id="job-item-content">{`${job.job_location.street_address}, ${job.job_location.city}`}</span></p>
+        <p><span id="job-item-topic">Employment Type: </span><span id="job-item-content">{job.employment_type}</span></p>
+        <p><span id="job-item-topic">Job Location: </span><span id="job-item-content">{`${job.job_location.street_address}, ${job.job_location.city}`}</span></p>
         <p><span id="job-item-topic">Offered Salary: </span><span id="job-item-content">{job.offered_salary}</span></p>
-        <p><strong><span id="job-item-topic">Job Specification:</span></strong></p>
+        <p><strong><span id="job-item-topic">Job Specification: </span></strong></p>
         <p><span id="job-item-topic">Education Level: </span><span id="job-item-content">{job.education_level}</span></p>
         <p><span id="job-item-topic">Applicantion Deadline: </span><span id="job-item-content">{job.application_dead_line}</span></p>
-        <p><span id="job-item-topic">Other Specifications:</span>
+        <p><span id="job-item-topic">Other Specifications: </span>
           {
             job.other_specification.map((el) => {
               return <ul>

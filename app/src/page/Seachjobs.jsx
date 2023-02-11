@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 export default function Seachjobs() {
     return (
         <>
-            <div className='container-fluid' style={{ padding: "3%", backgroundColor: "#CCE5FF" }}>
+            <div className='container-fluid' style={{ padding: "3%", backgroundColor: "#CCE5FF", width: "100vw" }}>
                 <div className='d-flex justify-content-center'>
                     <form className='d-flex justify-content-center' style={{ width: "60%" }}>
                         <input className='mx-1' type="text" style={{ width: "50%" }} placeholder="Enter Designation, Skills, Company, etc" />

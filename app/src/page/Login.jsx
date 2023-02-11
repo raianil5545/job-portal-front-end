@@ -5,6 +5,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { validPassword } from "../utils/validator";
 import ErrorText from "../component/ErrorText";
 import { ContextUser } from "../Context/Context";
+import "../css/login-style.css"
 
 const LoginForm = ({ handleClose }) => {
   const emailRef = useRef();
@@ -14,7 +15,7 @@ const LoginForm = ({ handleClose }) => {
   const navigate = useNavigate();
   const { setUserdata } = React.useContext(ContextUser);
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
 
     const email = emailRef.current.value;
@@ -28,14 +29,13 @@ const LoginForm = ({ handleClose }) => {
           "Minimun 8 character long, must contain atleast one lowercase, uppercase, number and symbol",
       });
     } else {
-      axios
+      await axios
         .post(`${process.env.REACT_APP_SERVER_URL}/user/login`, {
           email,
           password,
         })
         .then((response) => {
-          navigate("/");
-          if (rememberUser === "true") {
+          if (rememberUser === true) {
             localStorage.setItem("accessToken", response.data.accessToken);
           }
           setUserdata({
@@ -43,6 +43,7 @@ const LoginForm = ({ handleClose }) => {
             token: response.data.accessToken,
             user: response.data.user,
           });
+          navigate("/");
           handleClose();
         })
         .catch((err) => {
@@ -105,8 +106,7 @@ export default function Login() {
   return (
     <>
       <div
-        className="d-flex align-items-center justify-content-center"
-        style={{ height: "10vh" }}
+        className="d-flex align-items-center justify-content-center login-detail"
       >
         <div>
           <Link variant="primary" onClick={handleShow}>

@@ -60,8 +60,8 @@ function App() {
   }, []);
 
   if (loading) {
-    return <div class="spinner-border" role="status">
-      <span class="visually-hidden">Loading...</span>
+    return <div className="spinner-border" role="status">
+      <span className="visually-hidden">Loading...</span>
     </div>
   }
 
@@ -99,10 +99,10 @@ function App() {
             </Route>
             <Route path="job/show/:id" element={<ShowJob />} />
             <Route path="logout" element={<Logout />} />
-            <Route path="*" element={<h1>Error Page Not Found</h1>} />
             <Route path="/contact" element={<ContactUs />} />
             <Route path="/faq" element={<Faq />} />
             <Route path="/search" element={<Seachjobs />} />
+            <Route path="*" element={<h1>Error Page Not Found</h1>} />
           </ Route>
         </Routes>
       </div>

@@ -1,17 +1,18 @@
 import React from 'react';
 import Faqbackground from "../images/faq-background.jpg";
+import '../css/faq.css'
 
 export default function Faq() {
     return (
         <>
-            <div className='container-fluid' style={{ backgroundImage: 'url(' + Faqbackground + ')', backgroundSize: 'auto' }}>
+            <div className='container-fluid' style={{ backgroundImage: 'url(' + Faqbackground + ')', backgroundSize: 'auto', width:"100vw" }}>
                 <div className='row'>
                     <div className="col-6">
                         <h4 style={{ marginTop: "10px", paddingTop: "10px" }}>We are here to help you</h4>
                         <br></br>
                         <form style={{ marginTop: "10px", paddingBottom: "30px" }}>
-                            <input style={{ width: "50%" }} type="text" Placeholder="Search Your Queries Here" />
-                            <button className='btn-primary mx-1' style={{ width: "20%" }}>Search</button>
+                            <input id="faq-input-search" type="text" Placeholder="Search Your Queries Here" />
+                            <button id="faq-search-button" className='btn-primary mx-1'>Search</button>
                         </form>
                     </div>
                     <div className='col-6'>
@@ -29,7 +30,7 @@ export default function Faq() {
                                 <div style={{ border: "solid", color: "black" }}>
                                     <div className='row'>
                                         <div className='col-2 d-flex align-items-center'>
-                                            <span style={{padding: "5px"}}><i class="fa fa-user" style={{ fontSize: "36px" }}></i></span>
+                                            <span style={{padding: "5px"}}><i className="fa fa-user" style={{ fontSize: "36px" }}></i></span>
                                         </div>
                                         <div className='col-10'>
                                             <h3>Job Seeker</h3>
@@ -44,7 +45,7 @@ export default function Faq() {
                                 <div style={{ border: "solid", color: "black" }}>
                                     <div className='row'>
                                         <div className='col-2 d-flex align-items-center'>
-                                            <span style={{padding: "5px"}}><i class="fa fa-building" style={{ fontSize: "36px" }}></i></span>
+                                            <span style={{padding: "5px"}}><i className="fa fa-building" style={{ fontSize: "36px" }}></i></span>
                                         </div>
                                         <div className='col-10'>
                                             <h3>Employer</h3>
@@ -68,7 +69,7 @@ export default function Faq() {
                         <div className='row'>
                             <div className='col-1'>
                                 <span style={{padding: "5px", marginTop: "10px"}}>
-                                    <i class="fa fa-user" style={{ fontSize: "36px" }}></i>
+                                    <i className="fa fa-user" style={{ fontSize: "36px" }}></i>
                                 </span>
                             </div>
                             <div className='col-8' style={{padding: "5px"}}>
@@ -87,7 +88,7 @@ export default function Faq() {
                     <div className='row'>
                             <div className='col-1'>
                                 <span style={{padding: "5px"}}>
-                                    <i class="fa fa-building" style={{ fontSize: "36px" }}></i>
+                                    <i className="fa fa-building" style={{ fontSize: "36px" }}></i>
                                 </span>
                             </div>
                             <div className='col-8' style={{padding: "5px"}}>
@@ -110,7 +111,7 @@ export default function Faq() {
                         <div className='row'>
                             <div className='col-1'>
                                 <span style={{padding: "5px", marginTop: "10px"}}>
-                                    <i class="fa fa-user" style={{ fontSize: "36px" }}></i>
+                                    <i className="fa fa-user" style={{ fontSize: "36px" }}></i>
                                 </span>
                             </div>
                             <div className='col-8' style={{padding: "5px"}}>
@@ -129,7 +130,7 @@ export default function Faq() {
                     <div className='row'>
                             <div className='col-1'>
                                 <span style={{padding: "5px"}}>
-                                    <i class="fa fa-user" style={{ fontSize: "36px" }}></i>
+                                    <i className="fa fa-user" style={{ fontSize: "36px" }}></i>
                                 </span>
                             </div>
                             <div className='col-8' style={{padding: "5px"}}>
@@ -152,7 +153,7 @@ export default function Faq() {
                         <div className='row'>
                             <div className='col-1'>
                                 <span style={{padding: "5px", marginTop: "10px"}}>
-                                    <i class="fa fa-building" style={{ fontSize: "36px" }}></i>
+                                    <i className="fa fa-building" style={{ fontSize: "36px" }}></i>
                                 </span>
                             </div>
                             <div className='col-8' style={{padding: "5px"}}>
@@ -171,7 +172,7 @@ export default function Faq() {
                     <div className='row'>
                             <div className='col-1'>
                                 <span style={{padding: "5px"}}>
-                                    <i class="fa fa-user" style={{ fontSize: "36px" }}></i>
+                                    <i className="fa fa-user" style={{ fontSize: "36px" }}></i>
                                 </span>
                             </div>
                             <div className='col-8' style={{padding: "5px"}}>
@@ -192,8 +193,8 @@ export default function Faq() {
             <br/>
             <div className='container-fluid py-2' style={{ backgroundColor: "lightblue" }}>
                 <span style={{ marginRight: "10%" }}><b>Search, Apply, Get Job: Free</b></span>
-                <button className="btn-primary" style={{ marginRight: "5%" }}><span><i class="fa fa-user" style={{ fontSize: "15px" }}></i></span>  Register  </button>
-                <button className="btn-primary" style={{ marginRight: "5%" }}><span><i class="fa fa-sign-in" style={{ fontSize: "15px" }}></i></span>  Login  </button>
+                <button className="btn-primary" style={{ marginRight: "5%" }}><span><i className="fa fa-user" style={{ fontSize: "15px" }}></i></span>  Register  </button>
+                <button className="btn-primary" style={{ marginRight: "5%" }}><span><i className="fa fa-sign-in" style={{ fontSize: "15px" }}></i></span>  Login  </button>
             </div>
         </>
     );

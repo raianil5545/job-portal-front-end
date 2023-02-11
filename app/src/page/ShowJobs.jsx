@@ -49,13 +49,13 @@ function ShowJobs() {
                     disabledClassName={'disabled-page'}
                     marginPagesDisplayed={2}
                     nextClassName={"item next "}
-                    nextLabel = {"next"}
+                    nextLabel = {"Next"}
                     pageCount={pageCount}
                     onPageChange={handlePageClick}
                     pageClassName={'item pagination-page '}
                     pageRangeDisplayed={2}
                     previousClassName={"item previous"}
-                    previousLabel={"prev"}
+                    previousLabel={"Prev"}
                 />
             </div>
         </div>

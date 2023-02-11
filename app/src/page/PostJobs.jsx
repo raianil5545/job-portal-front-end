@@ -9,6 +9,7 @@ import {
     empoymentTypes, experinceLevel,
     jobCategories
 } from "../constant/job";
+import '../css/add-jobs.css'
 
 export default function PostJobs() {
     const {userData} = React.useContext(ContextUser);
@@ -77,111 +78,115 @@ export default function PostJobs() {
     }
     return (
         <>
-            <form className='mb-3' onSubmit={handleSubmit}>
-                <div className='mb-3'>
-                    <label for="job_name" class="form-label"> Job Name </label>
-                    <input className="form-control" type="text" name="job_name" placeholder='Job Name'
-                        value={jobData.job_name} onChange={handleChange} />
-                </div>
-                <div className='mb-3'>
-                    <label for="job_category" class="form-label"> Job category </label>
-                    <select class="form-select col-4" aria-label="Default select example" name="job_category" onChange={handleChange}>
-                        <option selected>Select the Job category </option>
-                        {
-                            jobCategories.map((job) => (
-                                <option value={job.value}>{job.label}</option>
-                            ))
-                        }
-                    </select>
-                </div>
-                <div className='mb-3'>
-                    <label for="job_level" class="form-label"> Job Level </label>
-                    <select class="form-select col-4" aria-label="Default select example" name="job_level" onChange={handleChange}>
-                        <option selected>Select the Experience level</option>
-                        {
-                            jobLevels.map((job) => (
-                                <option value={job.value}>{job.label}</option>
-                            ))
-                        }
-                    </select>
-                </div>
-                <div className='mb-3'>
-                    <label for="no_of_vacancy" class="form-label"> Number of Vacancies </label>
-                    <input className="form-control" type="text" name="no_of_vacancy" placeholder='number of vacancies'
-                        value={jobData.no_of_vacancy} onChange={handleChange} />
-                </div>
-                <div className='mb-3'>
-                    <label for="employment_type" class="form-label"> Employment Type </label>
-                    <select class="form-select col-4" aria-label="Default select example" name="employment_type" onChange={handleChange}>
-                        <option selected>Select the Employment type</option>
-                        {
-                            empoymentTypes.map((type) => (
-                                <option value={type.value}>{type.label}</option>
-                            ))
-                        }
-                    </select>
-                </div>
-                <div className='mb-2'>
-                    <label for="job_location" class="form-label"> Job Location </label>
-                    <div className='mb-3'>
-                        <label for="street_address" class="form-label"> Street Address </label>
-                        <input className="form-control" type="text" name="street_address" placeholder='street address'
-                            value={jobData.job_location.street_address} onChange={handleChange} />
+            <form className='mb-3 mt-3' onSubmit={handleSubmit} style={{width: "100vw"}}>
+                <div className='row d-flex justify-content-center'>
+                    <div className='mb-3 form-format'>
+                        <label for="job_name" className="form-label"> Job Name </label>
+                        <input className="form-control" type="text" name="job_name" placeholder='Job Name'
+                            value={jobData.job_name} onChange={handleChange} />
                     </div>
-                    <div className='mb-2'>
-                        <label for="city" class="form-label"> City </label>
-                        <input className="form-control" type="text" name="city" placeholder='city'
-                            value={jobData.job_location.city} onChange={handleChange} />
+                    <div className='mb-3 form-format' >
+                        <label for="job_category" className="form-label"> Job category </label>
+                        <select className="form-select col-4" aria-label="Default select example" name="job_category" onChange={handleChange}>
+                            <option selected>Select the Job category </option>
+                            {
+                                jobCategories.map((job) => (
+                                    <option value={job.value}>{job.label}</option>
+                                ))
+                            }
+                        </select>
+                    </div>
+                    <div className='mb-3 form-format' >
+                        <label for="job_level" className="form-label"> Job Level </label>
+                        <select className="form-select col-4" aria-label="Default select example" name="job_level" onChange={handleChange}>
+                            <option selected>Select the Experience level</option>
+                            {
+                                jobLevels.map((job) => (
+                                    <option value={job.value}>{job.label}</option>
+                                ))
+                            }
+                        </select>
+                    </div>
+                    <div className='mb-3 form-format' >
+                        <label for="no_of_vacancy" className="form-label"> Number of Vacancies </label>
+                        <input className="form-control" type="text" name="no_of_vacancy" placeholder='number of vacancies'
+                            value={jobData.no_of_vacancy} onChange={handleChange} />
+                    </div>
+                    <div className='mb-3 form-format' >
+                        <label for="employment_type" className="form-label"> Employment Type </label>
+                        <select className="form-select col-4" aria-label="Default select example" name="employment_type" onChange={handleChange}>
+                            <option selected>Select the Employment type</option>
+                            {
+                                empoymentTypes.map((type) => (
+                                    <option value={type.value}>{type.label}</option>
+                                ))
+                            }
+                        </select>
+                    </div>
+                    <div className='mb-3 form-format' >
+                        <label for="job_location" className="form-label"> Job Location </label>
+                        <div className='mb-3'>
+                            <label for="street_address" className="form-label"> Street Address </label>
+                            <input className="form-control" type="text" name="street_address" placeholder='street address'
+                                value={jobData.job_location.street_address} onChange={handleChange} />
+                        </div>
+                        <div className='mb-3 form-format'>
+                            <label for="city" className="form-label"> City </label>
+                            <input className="form-control" type="text" name="city" placeholder='city'
+                                value={jobData.job_location.city} onChange={handleChange} />
+                        </div>
+                    </div>
+                    <div className='mb-3 form-format' >
+                        <label for="offered_salary" className="form-label"> Offered salary </label>
+                        <input className="form-control" type="text" name="offered_salary" placeholder='20,000 or negotiable'
+                            value={jobData.offered_salary} onChange={handleChange} />
+                    </div>
+                    <div className='mb-3 form-format'>
+                        <label for="application_dead_line" className="form-label"> Application Dead Line </label>
+                        <input className="form-control" type="date" name="application_dead_line"
+                            value={jobData.application_dead_line} onChange={handleChange} />
+                    </div>
+                    <div className='mb-3 form-format'>
+                        <label for="education_level" className="form-label"> Education Level </label>
+                        <select className="form-select col-4" aria-label="Default select example" name="education_level" onChange={handleChange}>
+                            <option selected>Select the Education level</option>
+                            {
+                                educationLevels.map((edu) => (
+                                    <option value={edu.value}>{edu.label}</option>
+                                ))
+                            }
+                        </select>
+                    </div>
+                    <div className='mb-3 form-format'>
+                        <label for="experience_level" className="form-label"> Experience Level </label>
+                        <select className="form-select col-4" aria-label="Default select example" name="experience_level" onChange={handleChange}>
+                            <option selected>Select the Experience level</option>
+                            {
+                                experinceLevel.map((exp) => (
+                                    <option value={exp.value}>{exp.label}</option>
+                                ))
+                            }
+                        </select>
+                    </div>
+                    <div className='mb-3 form-format'>
+                        <label for="skills_required" className="form-label"> Skills Required </label>
+                        <input className="form-control" type="text" name="skills_required"
+                            value={jobData.skills_required} onChange={handleChange} />
+                    </div>
+                    <div className='mb-3 form-format'>
+                        <label for="other_specification" className="form-label"> Other Specification </label>
+                        <textarea className="form-control" name="other_specification"
+                            onChange={handleChange} />
+                    </div>
+                    <div className='mb-3 form-format'>
+                        <label for="job_description" className="form-label"> Job Description </label>
+                        <br />
+                        <textarea className="form-control" name="job_description" onChange={handleChange} />
+                    </div>
+                    <div className='mb-3 form-format'>
+                        <button type="submit" style={{ width: '100%' }} className="btn btn-primary">Submit</button>
                     </div>
                 </div>
-                <div className='mb-3'>
-                    <label for="offered_salary" class="form-label"> Offered salary </label>
-                    <input className="form-control" type="text" name="offered_salary" placeholder='20,000 or negotiable'
-                        value={jobData.offered_salary} onChange={handleChange} />
-                </div>
-                <div className='mb-3'>
-                    <label for="application_dead_line" class="form-label"> Application Dead Line </label>
-                    <input className="form-control" type="date" name="application_dead_line"
-                        value={jobData.application_dead_line} onChange={handleChange} />
-                </div>
-                <div className='mb-3'>
-                    <label for="education_level" class="form-label"> Education Level </label>
-                    <select class="form-select col-4" aria-label="Default select example" name="education_level" onChange={handleChange}>
-                        <option selected>Select the Education level</option>
-                        {
-                            educationLevels.map((edu) => (
-                                <option value={edu.value}>{edu.label}</option>
-                            ))
-                        }
-                    </select>
-                </div>
-                <div className='mb-3'>
-                    <label for="experience_level" class="form-label"> Experience Level </label>
-                    <select class="form-select col-4" aria-label="Default select example" name="experience_level" onChange={handleChange}>
-                        <option selected>Select the Experience level</option>
-                        {
-                            experinceLevel.map((exp) => (
-                                <option value={exp.value}>{exp.label}</option>
-                            ))
-                        }
-                    </select>
-                </div>
-                <div className='mb-3'>
-                    <label for="skills_required" class="form-label"> Skills Required </label>
-                    <input className="form-control" type="text" name="skills_required"
-                        value={jobData.skills_required} onChange={handleChange} />
-                </div>
-                <div className='mb-3'>
-                    <label for="other_specification" class="form-label"> Other Specification </label>
-                    <textarea className="form-control" name="other_specification"
-                        onChange={handleChange} />
-                </div>
-                <div className='mb-3'>
-                    <label for="job_description" class="form-label"> Job Description </label>
-                    <br />
-                    <textarea className="form-control" name="job_description" onChange={handleChange} />
-                </div>
-                <button type="submit" style={{ width: '100%' }} className="btn btn-primary">Submit</button>
             </form>
         </>
     );
